@@ -14,7 +14,7 @@ export
     DS_DN_NG86
 
 import BioSequences:
-    BioSequences
+    BioSequences,
     BioSequence,
     Kmer,
     NucAlphs,
