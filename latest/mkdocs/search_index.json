@@ -2,13 +2,13 @@
     "docs": [
         {
             "location": "/", 
-            "text": "NaturalSelection.jl \nBiological Variation\n\n\n \n \n \n \n \n \n\n\nDevelopment builds:\n \n \n \n\n\n\n\nDescription\n\n\nNaturalSelection.jl provides methods for detecting the presence, strength and effects of natural selection, in biological data.\n\n\n\n\nInstallation\n\n\nInstall NaturalSelection.jl from the Julia REPL:\n\n\njulia\n \nPkg\n.\nadd\n(\nNaturalSelection\n)\n\n\n\n\n\n\nIf you are interested in the cutting edge of the development, please check out the master branch to try new features before release.", 
+            "text": "NaturalSelection.jl \nDetect and measure selection forces\n\n\n \n \n \n \n \n \n\n\nDevelopment builds:\n \n \n \n\n\n\n\nDescription\n\n\nNaturalSelection.jl provides methods for detecting the presence, strength and effects of natural selection, in biological data.\n\n\n\n\nInstallation\n\n\nInstall NaturalSelection.jl from the Julia REPL:\n\n\njulia\n \nPkg\n.\nadd\n(\nNaturalSelection\n)\n\n\n\n\n\n\nIf you are interested in the cutting edge of the development, please check out the master branch to try new features before release.", 
             "title": "Home"
         }, 
         {
-            "location": "/#naturalselectionjl-biological-variation", 
+            "location": "/#naturalselectionjl-detect-and-measure-selection-forces", 
             "text": "Development builds:", 
-            "title": "NaturalSelection.jl Biological Variation"
+            "title": "NaturalSelection.jl Detect and measure selection forces"
         }, 
         {
             "location": "/#description", 
