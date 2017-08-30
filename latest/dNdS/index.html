@@ -316,14 +316,14 @@
 
 <p>Compute dN and dS, using the <a href="https://www.ncbi.nlm.nih.gov/pubmed/3444411">Nei and Goborjei 1986</a> method.</p>
 <p>This function requires two iterables <code>x</code> and <code>y</code>, which yield <code>DNACodon</code> or <code>RNACodon</code> type variables. These two types are defined in the BioSequences package.</p>
-<p><a target='_blank' href='https://github.com/BioJulia/NaturalSelection.jl/tree/f23e4ed6534614fe59870e45a0760ff201057b8a/src/dnds/NG86.jl#L9-L17' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/BioJulia/NaturalSelection.jl/tree/791ffc152f767b8be94401d10332606fa9fa01e8/src/dnds/NG86.jl#L9-L17' class='documenter-source'>source</a><br></p>
 <div class="codehilite"><pre><span></span>dNdS_NG86(x::BioSequence{A}, y::BioSequence{A}, k::Float64, code::GeneticCode) where {A &lt;: NucAlphs}
 </pre></div>
 
 
 <p>Compute dN and dS, using the <a href="https://www.ncbi.nlm.nih.gov/pubmed/3444411">Nei and Goborjei 1986</a> method.</p>
 <p>This method adds conveinience when working with DNA or RNA sequences, by taking two sequences, and creating two vectors of aligned codons from them. These two iterables are then passed into the generic NG86 method.</p>
-<p><a target='_blank' href='https://github.com/BioJulia/NaturalSelection.jl/tree/f23e4ed6534614fe59870e45a0760ff201057b8a/src/dnds/NG86.jl#L22-L30' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/BioJulia/NaturalSelection.jl/tree/791ffc152f767b8be94401d10332606fa9fa01e8/src/dnds/NG86.jl#L22-L30' class='documenter-source'>source</a><br></p>
 <p><a id='NaturalSelection.dNdS.S_N_NG86' href='#NaturalSelection.dNdS.S_N_NG86'>#</a>
 <strong><code>NaturalSelection.dNdS.S_N_NG86</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C &lt;: CDN}
@@ -333,7 +333,7 @@
 <p>Enumerate the number of synonymous (S) and non-synonymous (N) sites in a codon, using the method used by <a href="https://www.ncbi.nlm.nih.gov/pubmed/3444411">Nei and Goborjei (1986)</a>.</p>
 <p>Returns a tuple where S is the first element and N is the second (S, N).</p>
 <p>Each site in a codon may be both partially synonymous and non-synonymous.</p>
-<p><a target='_blank' href='https://github.com/BioJulia/NaturalSelection.jl/tree/f23e4ed6534614fe59870e45a0760ff201057b8a/src/dnds/NG86.jl#L61-L70' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/BioJulia/NaturalSelection.jl/tree/791ffc152f767b8be94401d10332606fa9fa01e8/src/dnds/NG86.jl#L61-L70' class='documenter-source'>source</a><br></p>
 <p><a id='NaturalSelection.dNdS.DS_DN_NG86' href='#NaturalSelection.dNdS.DS_DN_NG86'>#</a>
 <strong><code>NaturalSelection.dNdS.DS_DN_NG86</code></strong> &mdash; <em>Function</em>.</p>
 <div class="codehilite"><pre><span></span>DS_DN_NG86(x::C, y::C, code::GeneticCode) where C &lt;: CDN
@@ -341,7 +341,7 @@
 
 
 <p>Compute the number of synonymous (DS) and non-synonymous (DN) mutations between two codons, using the all paths method used by the <a href="https://www.ncbi.nlm.nih.gov/pubmed/3444411">Nei and Goborjei (1986)</a>.</p>
-<p><a target='_blank' href='https://github.com/BioJulia/NaturalSelection.jl/tree/f23e4ed6534614fe59870e45a0760ff201057b8a/src/dnds/NG86.jl#L129-L134' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/BioJulia/NaturalSelection.jl/tree/791ffc152f767b8be94401d10332606fa9fa01e8/src/dnds/NG86.jl#L129-L134' class='documenter-source'>source</a><br></p>
                 
                   
                 
