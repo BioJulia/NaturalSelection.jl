@@ -1,0 +1,59 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "NaturalSelection.jl \nBiological Variation\n\n\n \n \n \n \n \n \n\n\nDevelopment builds:\n \n \n \n\n\n\n\nDescription\n\n\nNaturalSelection.jl provides methods for detecting the presence, strength and effects of natural selection, in biological data.\n\n\n\n\nInstallation\n\n\nInstall NaturalSelection.jl from the Julia REPL:\n\n\njulia\n \nPkg\n.\nadd\n(\nNaturalSelection\n)\n\n\n\n\n\n\nIf you are interested in the cutting edge of the development, please check out the master branch to try new features before release.", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/#naturalselectionjl-biological-variation", 
+            "text": "Development builds:", 
+            "title": "NaturalSelection.jl Biological Variation"
+        }, 
+        {
+            "location": "/#description", 
+            "text": "NaturalSelection.jl provides methods for detecting the presence, strength and effects of natural selection, in biological data.", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/#installation", 
+            "text": "Install NaturalSelection.jl from the Julia REPL:  julia   Pkg . add ( NaturalSelection )   If you are interested in the cutting edge of the development, please check out the master branch to try new features before release.", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/dNdS/", 
+            "text": "dN / dS\n\n\nThe \nNaturalSelection.dNdS\n module provides several different methods of inferring the action of natural selection from coding sequences.\n\n\nEvolutionary pressures on proteins are often quantified by the ratio of substitution rates at non-synonymous and synonymous sites i.e. dN/dS.\n\n\nThe dN/dS ratio was originally developed for application to distantly diverged sequences, the differences among which represent substitutions that have fixed along independent lineages.\n\n\nNevertheless, the dN/dS measure is often applied to sequences sampled from a single population, the differences among which represent segregating polymorphisms. However, do be careful if this is what you are doing, as it has been demonstrated that dN/dS is not always suitable for such purposes \n(Sergey Kryazhimskiy \n Joshua B. Plotkin, 2008)\n\n\n\n\nThe NG86 method\n\n\ndNdS_NG86\nS_N_NG86\nDS_DN_NG86", 
+            "title": "dNdS"
+        }, 
+        {
+            "location": "/dNdS/#dn-ds", 
+            "text": "The  NaturalSelection.dNdS  module provides several different methods of inferring the action of natural selection from coding sequences.  Evolutionary pressures on proteins are often quantified by the ratio of substitution rates at non-synonymous and synonymous sites i.e. dN/dS.  The dN/dS ratio was originally developed for application to distantly diverged sequences, the differences among which represent substitutions that have fixed along independent lineages.  Nevertheless, the dN/dS measure is often applied to sequences sampled from a single population, the differences among which represent segregating polymorphisms. However, do be careful if this is what you are doing, as it has been demonstrated that dN/dS is not always suitable for such purposes  (Sergey Kryazhimskiy   Joshua B. Plotkin, 2008)", 
+            "title": "dN / dS"
+        }, 
+        {
+            "location": "/dNdS/#the-ng86-method", 
+            "text": "dNdS_NG86\nS_N_NG86\nDS_DN_NG86", 
+            "title": "The NG86 method"
+        }, 
+        {
+            "location": "/contributing/", 
+            "text": "Contributing\n\n\nWe appreciate contributions from users including reporting bugs, fixing issues, improving performance and adding new features.\n\n\nIf you have a question about contributing or using this package, you are encouraged to use the \nBio category of the Julia discourse site\n.\n\n\nDetailed guidance for contributing to all BioJulia packages is provided at the \nBioJulia Contribution Documentation\n.\n\n\nHere we list specific details about contributing and maintainership pertaining specifically to the NaturalSelection.jl package.\n\n\n\n\nNamed maintainers\n\n\nThe named maintainers of this package is Ben Ward. It is their responsibility to make final choices about pull requests and issues, although because of our community structure, you will find other maintainers assisting them.\n\n\n\n\nBranching model\n\n\nThe branching model used to develop and make releases of this package is the \nOneFlow\n model summarized in the \nBioJulia Contribution Documentation", 
+            "title": "Contributing"
+        }, 
+        {
+            "location": "/contributing/#contributing", 
+            "text": "We appreciate contributions from users including reporting bugs, fixing issues, improving performance and adding new features.  If you have a question about contributing or using this package, you are encouraged to use the  Bio category of the Julia discourse site .  Detailed guidance for contributing to all BioJulia packages is provided at the  BioJulia Contribution Documentation .  Here we list specific details about contributing and maintainership pertaining specifically to the NaturalSelection.jl package.", 
+            "title": "Contributing"
+        }, 
+        {
+            "location": "/contributing/#named-maintainers", 
+            "text": "The named maintainers of this package is Ben Ward. It is their responsibility to make final choices about pull requests and issues, although because of our community structure, you will find other maintainers assisting them.", 
+            "title": "Named maintainers"
+        }, 
+        {
+            "location": "/contributing/#branching-model", 
+            "text": "The branching model used to develop and make releases of this package is the  OneFlow  model summarized in the  BioJulia Contribution Documentation", 
+            "title": "Branching model"
+        }
+    ]
+}
