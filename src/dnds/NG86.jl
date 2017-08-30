@@ -88,7 +88,7 @@ function S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: CDN}
             # N and S counts accordingly.
             inc = ifelse(istransition, 1.0, k)
             neighbor_aa = code[neighbor]
-            if neighbor_aa == AA_Term
+            if neighbor_aa == BioSequences.AA_Term
                 N += inc
             elseif neighbor_aa == aa
                 S += inc
