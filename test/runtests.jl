@@ -2,7 +2,7 @@ module TestNaturalSelection
 
 using Base.Test
 
-using BioSequences, NaturalSelection
+using BioSequences, NaturalSelection.dNdS
 
 @testset "dNdS" begin
     @testset "NG86" begin
