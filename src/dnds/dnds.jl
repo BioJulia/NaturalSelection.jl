@@ -18,7 +18,8 @@ import BioSequences:
     BioSequence,
     Kmer,
     NucAlphs,
-    GeneticCode
+    GeneticCode,
+    ispurine
 
 const CDN = Union{BioSequences.DNACodon, BioSequences.RNACodon}
 const DEFAULT_TRANS = BioSequences.ncbi_trans_table[1]
