@@ -11,7 +11,7 @@
 **Development status:**
 
 [![Build Status](https://travis-ci.org/BioJulia/NaturalSelection.jl.svg?branch=master)](https://travis-ci.org/BioJulia/NaturalSelection.jl)
-[![Build status](https://ci.appveyor.com/api/projects/status/m4o4t50l3ih35jrt/branch/master?svg=true)](https://ci.appveyor.com/project/Ward9250/NaturalSelection-jl/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/hp2ceyxl0mrc8q65/branch/master?svg=true)](https://ci.appveyor.com/project/Ward9250/naturalselection-jl/branch/master)
 [![codecov](https://codecov.io/gh/BioJulia/NaturalSelection.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/BioJulia/NaturalSelection.jl)
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://biojulia.github.io/NaturalSelection.jl/latest)
 
