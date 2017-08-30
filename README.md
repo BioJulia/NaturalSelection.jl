@@ -18,8 +18,8 @@
 
 ## Description
 
-NaturalSelection.jl provides methods for the presence, strength and effects of
-natural selection, in biological data. 
+NaturalSelection.jl provides methods for detecting the presence, strength and effects of
+natural selection, in biological data.
 
 
 ## Installation
