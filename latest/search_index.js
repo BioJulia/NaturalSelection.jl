@@ -33,7 +33,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "dNdS.html#",
+    "location": "man/dNdS.html#",
     "page": "dNdS",
     "title": "dNdS",
     "category": "page",
@@ -41,7 +41,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "dNdS.html#dN-/-dS-1",
+    "location": "man/dNdS.html#dN-/-dS-1",
     "page": "dNdS",
     "title": "dN / dS",
     "category": "section",
@@ -49,7 +49,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "dNdS.html#NaturalSelection.dNdS.dNdS_NG86",
+    "location": "man/dNdS.html#NaturalSelection.dNdS.dNdS_NG86",
     "page": "dNdS",
     "title": "NaturalSelection.dNdS.dNdS_NG86",
     "category": "Function",
@@ -57,7 +57,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "dNdS.html#NaturalSelection.dNdS.S_N_NG86",
+    "location": "man/dNdS.html#NaturalSelection.dNdS.S_N_NG86",
     "page": "dNdS",
     "title": "NaturalSelection.dNdS.S_N_NG86",
     "category": "Function",
@@ -65,7 +65,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "dNdS.html#NaturalSelection.dNdS.DS_DN_NG86",
+    "location": "man/dNdS.html#NaturalSelection.dNdS.DS_DN_NG86",
     "page": "dNdS",
     "title": "NaturalSelection.dNdS.DS_DN_NG86",
     "category": "Function",
@@ -73,7 +73,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "dNdS.html#The-NG86-method-1",
+    "location": "man/dNdS.html#The-NG86-method-1",
     "page": "dNdS",
     "title": "The NG86 method",
     "category": "section",
