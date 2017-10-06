@@ -6,21 +6,6 @@
 # This file is a part of BioJulia.
 # License is MIT: https://github.com/BioJulia/NaturalSelection.jl/blob/master/LICENSE.md
 
-module dNdS
-
-export
-    dNdS_NG86,
-    S_N_NG86,
-    DS_DN_NG86
-
-import BioSequences:
-    BioSequences,
-    BioSequence,
-    Kmer,
-    NucAlphs,
-    GeneticCode,
-    ispurine
-
 const CDN = Union{BioSequences.DNACodon, BioSequences.RNACodon}
 const DEFAULT_TRANS = BioSequences.ncbi_trans_table[1]
 const CDN_POS_MASKS = (0xFFFFFFFFFFFFFFCF, 0xFFFFFFFFFFFFFFF3, 0xFFFFFFFFFFFFFFFC)
@@ -70,4 +55,3 @@ function aligned_codons(x::BioSequence{T}, y::BioSequence{T}, start::Int = 1) wh
 end
 
 include("NG86.jl")
-end

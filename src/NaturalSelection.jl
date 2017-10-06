@@ -12,7 +12,23 @@ __precompile__()
 module NaturalSelection
 
 export
-    dNdS
+    dNdS_NG86,
+    S_N_NG86,
+    DS_DN_NG86,
+    tajimad
+
+import BioSequences:
+    BioSequences,
+    BioSequence,
+    Kmer,
+    NucAlphs,
+    GeneticCode,
+    ispurine
+
+import GeneticVariation:
+    NL79,
+    Segregating
 
 include("dnds/dnds.jl")
+include("tajima.jl")
 end
