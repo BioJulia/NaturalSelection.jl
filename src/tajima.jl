@@ -52,8 +52,8 @@ function tajimad(π::AbstractFloat, S::Integer, n::Integer)
 end
 
 function tajimad(seqs)
-    π = NL79(seqs)
+    π = avg_mut(seqs)
     S = count(Segregating, seqs)
     n = length(seqs)
-    return tajimad(π, S[1] / s[2], n)
+    return tajimad(π, S[1], n)
 end

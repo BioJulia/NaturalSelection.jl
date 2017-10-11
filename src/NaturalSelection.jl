@@ -27,7 +27,8 @@ import BioSequences:
 
 import GeneticVariation:
     NL79,
-    Segregating
+    Segregating,
+    avg_mut
 
 include("dnds/dnds.jl")
 include("tajima.jl")
