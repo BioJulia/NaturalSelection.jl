@@ -33,6 +33,19 @@ function dNdS_NG86(x::BioSequence{A}, y::BioSequence{A}, opt...) where {A <: Nuc
     return dNdS_NG86(xcdns, ycdns, opt...)
 end
 
+function pairwise_dNdS_NG86(x, opt...)
+    n = length(x)
+    @assert n >= 2 "At least two sequences are required."
+    results = Matrix{Tuple{Float64, Float64}}(n, n)
+    for i in 1:n
+        results[i,i] = 0.0, 0.0
+        for j in (i + 1):n
+            results[i,j] = results[j,i] = dNdS_NG86(x[i], x[j], opt...)
+        end
+    end
+    return results
+end
+
 function _dNdS_NG86(x, y, k::Float64, code::GeneticCode, addone::Bool, xtype::Type{C}, ytype::Type{C}) where C <: CDN
     # Expected no. of syn and nonsyn sites.
     S = N = 0.0
