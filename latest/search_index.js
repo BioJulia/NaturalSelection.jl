@@ -37,7 +37,7 @@ var documenterSearchIndex = {"docs": [
     "page": "dNdS",
     "title": "dNdS",
     "category": "page",
-    "text": "CurrentModule = NaturalSelection.dNdS"
+    "text": "CurrentModule = NaturalSelection"
 },
 
 {
@@ -45,29 +45,29 @@ var documenterSearchIndex = {"docs": [
     "page": "dNdS",
     "title": "dN / dS",
     "category": "section",
-    "text": "The NaturalSelection.dNdS module provides several different methods of inferring the action of natural selection from coding sequences.Evolutionary pressures on proteins are often quantified by the ratio of substitution rates at non-synonymous and synonymous sites i.e. dN/dS.The dN/dS ratio was originally developed for application to distantly diverged sequences, the differences among which represent substitutions that have fixed along independent lineages.Nevertheless, the dN/dS measure is often applied to sequences sampled from a single population, the differences among which represent segregating polymorphisms. However, do be careful if this is what you are doing, as it has been demonstrated that dN/dS is not always suitable for such purposes (Sergey Kryazhimskiy & Joshua B. Plotkin, 2008)."
+    "text": "NaturalSelection.jl provides several different methods of inferring the action of natural selection from coding sequences.Evolutionary pressures on proteins are often quantified by the ratio of substitution rates at non-synonymous and synonymous sites i.e. dN/dS.The dN/dS ratio was originally developed for application to distantly diverged sequences, the differences among which represent substitutions that have fixed along independent lineages.Nevertheless, the dN/dS measure is often applied to sequences sampled from a single population, the differences among which represent segregating polymorphisms. However, do be careful if this is what you are doing, as it has been demonstrated that dN/dS is not always suitable for such purposes (Sergey Kryazhimskiy & Joshua B. Plotkin, 2008)."
 },
 
 {
-    "location": "man/dNdS.html#NaturalSelection.dNdS.dNdS_NG86",
+    "location": "man/dNdS.html#NaturalSelection.dNdS_NG86",
     "page": "dNdS",
-    "title": "NaturalSelection.dNdS.dNdS_NG86",
+    "title": "NaturalSelection.dNdS_NG86",
     "category": "Function",
     "text": "dNdS_NG86(x, y, k::Float64 = 1.0, code::GeneticCode)\n\nCompute dN and dS, using the Nei and Goborjei 1986 method.\n\nThis function requires two iterables x and y, which yield DNACodon or RNACodon type variables. These two types are defined in the BioSequences package.\n\n\n\ndNdS_NG86(x::BioSequence{A}, y::BioSequence{A}, k::Float64, code::GeneticCode) where {A <: NucAlphs}\n\nCompute dN and dS, using the Nei and Goborjei 1986 method.\n\nThis method adds conveinience when working with DNA or RNA sequences, by taking two sequences, and creating two vectors of aligned codons from them. These two iterables are then passed into the generic NG86 method.\n\n\n\n"
 },
 
 {
-    "location": "man/dNdS.html#NaturalSelection.dNdS.S_N_NG86",
+    "location": "man/dNdS.html#NaturalSelection.S_N_NG86",
     "page": "dNdS",
-    "title": "NaturalSelection.dNdS.S_N_NG86",
+    "title": "NaturalSelection.S_N_NG86",
     "category": "Function",
     "text": "S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: CDN}\n\nEnumerate the number of synonymous (S) and non-synonymous (N) sites in a codon, using the method used by Nei and Goborjei (1986).\n\nReturns a tuple where S is the first element and N is the second (S, N).\n\nEach site in a codon may be both partially synonymous and non-synonymous.\n\n\n\n"
 },
 
 {
-    "location": "man/dNdS.html#NaturalSelection.dNdS.DS_DN_NG86",
+    "location": "man/dNdS.html#NaturalSelection.DS_DN_NG86",
     "page": "dNdS",
-    "title": "NaturalSelection.dNdS.DS_DN_NG86",
+    "title": "NaturalSelection.DS_DN_NG86",
     "category": "Function",
     "text": "DS_DN_NG86(x::C, y::C, code::GeneticCode) where C <: CDN\n\nCompute the number of synonymous (DS) and non-synonymous (DN) mutations between two codons, using the all paths method used by the Nei and Goborjei (1986).\n\n\n\n"
 },
@@ -78,6 +78,38 @@ var documenterSearchIndex = {"docs": [
     "title": "The NG86 method",
     "category": "section",
     "text": "dNdS_NG86\nS_N_NG86\nDS_DN_NG86"
+},
+
+{
+    "location": "man/tajimad.html#",
+    "page": "Tajima's D",
+    "title": "Tajima's D",
+    "category": "page",
+    "text": "CurrentModule = NaturalSelection"
+},
+
+{
+    "location": "man/tajimad.html#NaturalSelection.tajimad-Tuple{AbstractFloat,Integer,Integer}",
+    "page": "Tajima's D",
+    "title": "NaturalSelection.tajimad",
+    "category": "Method",
+    "text": "tajimad(π::AbstractFloat, S::Integer, n::Integer)\n\nCompute Tajima's D from:\n\nπ: The average number of SNPs found in (n choose 2) pairwise comparisons of      a sample of sequences.\nS: The number of segregating sites in a sample of sequences.\nn: The number of sequences in your sample.\n\nExample\n\ntajimad(3.88888, 16, 10)\n\n\n\n"
+},
+
+{
+    "location": "man/tajimad.html#NaturalSelection.tajimad-Tuple{Any}",
+    "page": "Tajima's D",
+    "title": "NaturalSelection.tajimad",
+    "category": "Method",
+    "text": "tajimad(seqs)\n\nCompute Tajima's D from a collection of BioSequences{DNAAlphabet{n}} (n = 2 or 4).\n\nThis will estimate the π, S, and n parameters from the sequences and use those parameters to estimate Tajima's D.\n\nExample\n\n\nsample = [dna\"ATAATAAAAAAATAATAAAAAAATAAAAAAAATAAAAAAAA\",\n          dna\"AAAAAAAATAAATAATAAAAAAATAAAAAAAAAAAAAAAAA\",\n          dna\"AAAATAAAAATATAATAAAAAAATATAAAAAAAAAAAAAAA\",\n          dna\"AAAAAAAAAAAATAATAAAAAAATAAATAAATAAAAAAAAA\",\n          dna\"AAAATAAAAAAAATATAAAAAAATAAAAAAAAAAAAAAAAA\",\n          dna\"AAAATAAAAAAAAAATAAAAAAAAAAAAAAAAAAATAAAAA\",\n          dna\"AAAAAATAAAAATAATAAAAAAATAAAAAAAAAAAAAAAAA\",\n          dna\"AAAAAAAAAAAAAAATAAAAAAATAAAAAAAAAAAAAAATA\",\n          dna\"AAAAAAAAAAAAAAAAAAAAAAATAAAAAAAAAAAAAAAAA\",\n          dna\"AAAAAAAAAAAAAAATAAAAAAATAATAAAAAAAAAAAAAA\"]\n\ntajimad(sample)\n\n\n\n"
+},
+
+{
+    "location": "man/tajimad.html#Tajima's-D-1",
+    "page": "Tajima's D",
+    "title": "Tajima's D",
+    "category": "section",
+    "text": "Tajima's D is a population genetic test statistic created by and named after the Japanese researcher Fumio Tajima.Tajima's D is computed as the difference between two measures of genetic diversity: The mean number of pairwise differences and the number of segregating sites, each scaled so that they are expected to be the same in a neutrally evolving population of constant size.The purpose of the statistic is to distinguish between a DNA sequence evolving randomly (\"neutrally\") and one evolving under a non-random process. The non-random process might be directional or balancing selection, demographic expansion or contraction, genetic hitchhiking, or even introgression.tajimad(::AbstractFloat, ::Integer, ::Integer)\ntajimad(::Any)"
 },
 
 {
