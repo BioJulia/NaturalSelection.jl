@@ -1,13 +1,14 @@
 using Documenter, NaturalSelection
 
 makedocs(
-    modules = [NaturalSelection.dNdS],
+    modules = [NaturalSelection],
     format = :html,
     sitename = "NaturalSelection.jl",
     pages = [
         "Home" => "index.md",
         "Manual" => [
             "dNdS" => "man/dNdS.md",
+            "Tajima's D" => "man/tajimad.md"
         ],
         "Contributing" => "contributing.md"
     ],

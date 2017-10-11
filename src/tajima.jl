@@ -39,6 +39,25 @@ function tajimad(π::AbstractFloat, S::Integer, a1::AbstractFloat, e1::AbstractF
     return (π - S / a1) / sqrt(e1 * S + e2 * S * (S - 1))
 end
 
+"""
+    tajimad(π::AbstractFloat, S::Integer, n::Integer)
+
+Compute Tajima's D from:
+
+* `π`: The average number of SNPs found in (n choose 2) pairwise comparisons of
+       a sample of sequences.
+
+* `S`: The number of segregating sites in a sample of sequences.
+
+* `n`: The number of sequences in your sample.
+
+*Example*
+
+```julia
+tajimad(3.88888, 16, 10)
+```
+
+"""
 function tajimad(π::AbstractFloat, S::Integer, n::Integer)
     a1 = td_a1(n)
     a2 = td_a2(n)
@@ -51,6 +70,33 @@ function tajimad(π::AbstractFloat, S::Integer, n::Integer)
     return tajimad(π, S, a1, e1, e2)
 end
 
+"""
+    tajimad(seqs)
+
+Compute Tajima's D from a collection of BioSequences{DNAAlphabet{n}} (n = 2 or 4).
+
+This will estimate the `π`, `S`, and `n` parameters from the sequences and use
+those parameters to estimate Tajima's D.
+
+*Example*
+
+```julia
+
+sample = [dna"ATAATAAAAAAATAATAAAAAAATAAAAAAAATAAAAAAAA",
+          dna"AAAAAAAATAAATAATAAAAAAATAAAAAAAAAAAAAAAAA",
+          dna"AAAATAAAAATATAATAAAAAAATATAAAAAAAAAAAAAAA",
+          dna"AAAAAAAAAAAATAATAAAAAAATAAATAAATAAAAAAAAA",
+          dna"AAAATAAAAAAAATATAAAAAAATAAAAAAAAAAAAAAAAA",
+          dna"AAAATAAAAAAAAAATAAAAAAAAAAAAAAAAAAATAAAAA",
+          dna"AAAAAATAAAAATAATAAAAAAATAAAAAAAAAAAAAAAAA",
+          dna"AAAAAAAAAAAAAAATAAAAAAATAAAAAAAAAAAAAAATA",
+          dna"AAAAAAAAAAAAAAAAAAAAAAATAAAAAAAAAAAAAAAAA",
+          dna"AAAAAAAAAAAAAAATAAAAAAATAATAAAAAAAAAAAAAA"]
+
+tajimad(sample)
+```
+
+"""
 function tajimad(seqs)
     π = avg_mut(seqs)
     S = count(Segregating, seqs)

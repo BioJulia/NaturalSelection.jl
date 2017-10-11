@@ -1,10 +1,10 @@
 ```@meta
-CurrentModule = NaturalSelection.dNdS
+CurrentModule = NaturalSelection
 ```
 
 # dN / dS
 
-The `NaturalSelection.dNdS` module provides several different methods of inferring
+NaturalSelection.jl provides several different methods of inferring
 the action of natural selection from coding sequences.
 
 Evolutionary pressures on proteins are often quantified by the ratio of
