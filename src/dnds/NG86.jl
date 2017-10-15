@@ -28,9 +28,9 @@ This method adds conveinience when working with DNA or RNA sequences, by taking
 two sequences, and creating two vectors of aligned codons from them. These two
 iterables are then passed into the generic NG86 method.
 """
-function dNdS_NG86(x::BioSequence{A}, y::BioSequence{A}, opt...) where {A <: NucAlphs}
+function dNdS_NG86(x::BioSequence{A}, y::BioSequence{A}, k::Float64 = 1.0, code::GeneticCode = DEFAULT_TRANS, addone::Bool = false) where {A <: NucAlphs}
     xcdns, ycdns = aligned_codons(x, y)
-    return dNdS_NG86(xcdns, ycdns, opt...)
+    return dNdS_NG86(xcdns, ycdns, k, code, addone)
 end
 
 function pairwise_dNdS_NG86(x, opt...)
