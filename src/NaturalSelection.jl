@@ -32,4 +32,5 @@ import GeneticVariation:
 
 include("dnds/dnds.jl")
 include("tajima.jl")
+include("mkt.jl")
 end
