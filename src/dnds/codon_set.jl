@@ -16,10 +16,7 @@ primitive type CodonSet{T<:NucleicAcid} 64 end
 # Conversion and construction
 # ---------------------------
 
-function Base.convert(::Type{CodonSet{T}}, x) where T<:NucleicAcid
-    return reinterpret(CodonSet{T}, UInt64(x))
-end
-CodonSet{T}() where T <: NucleicAcid = CodonSet{T}(0)
+CodonSet{T}() where T <: NucleicAcid = reinterpret(CodonSet{T}, UInt64(0))
 
 
 # Base operators
