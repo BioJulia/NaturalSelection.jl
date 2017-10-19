@@ -33,11 +33,6 @@ end
 end
 =#
 
-"""
-    aligned_codons(x::BioSequence{T}, y::BioSequence{T}, start::Int = 1) where T <: NucAlphs
-
-Create two
-"""
 function aligned_codons(x::BioSequence{T}, y::BioSequence{T}, start::Int = 1) where T <: NucAlphs
     xcdns = Vector{Kmer{eltype(T), 3}}()
     ycdns = Vector{Kmer{eltype(T), 3}}()
@@ -54,4 +49,5 @@ function aligned_codons(x::BioSequence{T}, y::BioSequence{T}, start::Int = 1) wh
     return xcdns, ycdns
 end
 
+include("codon_set.jl")
 include("NG86.jl")
