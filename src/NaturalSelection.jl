@@ -30,7 +30,16 @@ import GeneticVariation:
     Segregating,
     avg_mut
 
+const DEFAULT_TRANS = BioSequences.ncbi_trans_table[1]
+const Codon{T} = BioSequences.Kmer{T, 3}
+
+@inline bitindex(x::Kmer{T,K}, i::Integer) where {T,K} = 2 * (K - i)
+
+include("codons/codon_set.jl")
+include("codons/DS_DN_enumerator.jl")
+include("codons/allpaths.jl")
+include("codons/shortestpath.jl")
+
 include("dnds/dnds.jl")
 include("tajima.jl")
-include("mkt.jl")
 end

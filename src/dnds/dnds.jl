@@ -6,8 +6,6 @@
 # This file is a part of BioJulia.
 # License is MIT: https://github.com/BioJulia/NaturalSelection.jl/blob/master/LICENSE.md
 
-const CDN = Union{BioSequences.DNACodon, BioSequences.RNACodon}
-const DEFAULT_TRANS = BioSequences.ncbi_trans_table[1]
 const CDN_POS_MASKS = (0xFFFFFFFFFFFFFFCF, 0xFFFFFFFFFFFFFFF3, 0xFFFFFFFFFFFFFFFC)
 const SITE_PERMUTATIONS = [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
 
@@ -49,5 +47,30 @@ function aligned_codons(x::BioSequence{T}, y::BioSequence{T}, start::Int = 1) wh
     return xcdns, ycdns
 end
 
-include("codon_set.jl")
+function aligned_codons(v::Vector{DNASequence}, start::Int = 1)
+    nv = endof(v)
+    cdns = Vector{Vector{DNACodon}}(nv)
+    oks = Vector{Vector{Bool}}(nv)
+    @inbounds for i in eachindex(v)
+        cdns[i] = Vector{DNACodon}()
+        oks[i] = Vector{Bool}()
+
+        pos = start
+        while pos + 2 ≤ minimum(endof.(v))
+            cdn, ok = BioSequences.extract_kmer_impl(v[i], pos, 3)
+            push!(cdns[i], convert(DNACodon, cdn))
+            push!(oks[i], ok)
+            pos += 3
+        end
+    end
+    finalbool = falses(oks[1])
+    @inbounds for ok in oks
+        for i in eachindex(ok)
+            finalbool[i] |= ok[i]
+        end
+    end
+    return Vector{DNACodon}[cdn[finalbool] for cdn in cdns]
+end
+
 include("NG86.jl")
+include("mkt.jl")
