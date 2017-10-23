@@ -19,6 +19,7 @@ export
 
 import BioSequences:
     BioSequences,
+    DNA,
     BioSequence,
     DNASequence,
     NucleicAcid,
