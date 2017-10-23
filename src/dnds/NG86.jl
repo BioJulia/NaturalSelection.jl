@@ -46,7 +46,7 @@ function pairwise_dNdS_NG86(x, opt...)
     return results
 end
 
-function _dNdS_NG86(x, y, k::Float64, code::GeneticCode, addone::Bool, xtype::Type{C}, ytype::Type{C}) where C <: CDN
+function _dNdS_NG86(x, y, k::Float64, code::GeneticCode, addone::Bool, xtype::Type{C}, ytype::Type{C}) where C <: Codon
     # Expected no. of syn and nonsyn sites.
     S = N = 0.0
     # Observed no. of syn and nonsyn mutations.
@@ -81,7 +81,7 @@ Returns a tuple where S is the first element and N is the second (S, N).
 
 Each site in a codon may be both partially synonymous and non-synonymous.
 """
-function S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: CDN}
+function S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: Codon}
     cdn_bits = UInt64(codon)
     aa = code[codon]
     S = N = 0.0
