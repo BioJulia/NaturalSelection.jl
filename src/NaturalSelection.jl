@@ -20,6 +20,7 @@ export
 import BioSequences:
     BioSequences,
     BioSequence,
+    DNASequence,
     NucleicAcid,
     Kmer,
     NucAlphs,
