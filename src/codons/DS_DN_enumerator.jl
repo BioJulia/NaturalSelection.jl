@@ -42,7 +42,7 @@ function DS_DN_enumerator(::Type{T}, x::Codon, y::Codon, code::GeneticCode = DEF
         if n_diffs == 1
             println(x, " --> ", y, ": A single mutation occurs!")
             println(code[x], " --> ", code[y])
-            DS, DN = classify_mutation(x, y, code, ONEPATH)
+            DS, DN = classify_mutation(x, y, code, weighting(T, ONEPATH))
             # One site in the two codons is different. It is obvious and simple
             # then to count whether it is a synonymous or nonsynonymous mutation.
         elseif n_diffs == 2
