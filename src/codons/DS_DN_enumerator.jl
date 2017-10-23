@@ -60,8 +60,8 @@ function DS_DN_enumerator(::Type{T}, x::Codon, y::Codon, code::GeneticCode = DEF
                     println(x, " --> ", temp_cdn, " --> ", y)
                     println(code[x], " --> ", code[temp_cdn], " --> ", code[y])
 
-                    DS_a, DN_a = classify_mutation(x, temp, code, weighting(T, TWOPATHS))
-                    DS_b, DN_b = classify_mutation(temp, y, code, weighting(T, TWOPATHS))
+                    DS_a, DN_a = classify_mutation(x, temp_cdn, code, weighting(T, TWOPATHS))
+                    DS_b, DN_b = classify_mutation(temp_cdn, y, code, weighting(T, TWOPATHS))
                     DS_i = DS_a + DS_b
                     DN_i = DN_a + DN_b
 
@@ -86,9 +86,9 @@ function DS_DN_enumerator(::Type{T}, x::Codon, y::Codon, code::GeneticCode = DEF
                 println(x, " --> ", tmp_cdn_a, " --> ", tmp_cdn_b, " --> ", y)
                 println(code[x], " --> ", code[tmp_cdn_a], " --> ", code[tmp_cdn_b], " --> ", code[y])
 
-                DS_a, DN_a = classify_mutation(x, tmp_a, code, weighting(T, THREEPATHS))
-                DS_b, DN_b = classify_mutation(tmp_a, tmp_b, code, weighting(T, THREEPATHS))
-                DS_c, DN_c = classify_mutation(tmp_b, y, code, weighting(T, THREEPATHS))
+                DS_a, DN_a = classify_mutation(x, tmp_cdn_a, code, weighting(T, THREEPATHS))
+                DS_b, DN_b = classify_mutation(tmp_cdn_a, tmp_cdn_b, code, weighting(T, THREEPATHS))
+                DS_c, DN_c = classify_mutation(tmp_cdn_b, y, code, weighting(T, THREEPATHS))
                 DS_i = DS_a + DS_b + DS_c
                 DN_i = DN_a + DN_b + DN_c
 
