@@ -49,16 +49,16 @@ end
 
 function aligned_codons(v::Vector{DNASequence}, start::Int = 1)
     nv = endof(v)
-    cdns = Vector{Vector{DNACodon}}(nv)
+    cdns = Vector{Vector{Codon{DNA}}}(nv)
     oks = Vector{Vector{Bool}}(nv)
     @inbounds for i in eachindex(v)
-        cdns[i] = Vector{DNACodon}()
+        cdns[i] = Vector{Codon{DNA}}()
         oks[i] = Vector{Bool}()
 
         pos = start
         while pos + 2 ≤ minimum(endof.(v))
             cdn, ok = BioSequences.extract_kmer_impl(v[i], pos, 3)
-            push!(cdns[i], convert(DNACodon, cdn))
+            push!(cdns[i], convert(Codon{DNA}, cdn))
             push!(oks[i], ok)
             pos += 3
         end
@@ -69,7 +69,7 @@ function aligned_codons(v::Vector{DNASequence}, start::Int = 1)
             finalbool[i] |= ok[i]
         end
     end
-    return Vector{DNACodon}[cdn[finalbool] for cdn in cdns]
+    return Vector{Codon{DNA}}[cdn[finalbool] for cdn in cdns]
 end
 
 include("NG86.jl")

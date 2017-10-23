@@ -9,10 +9,10 @@
 """
     dNdS_NG86(x, y, k::Float64 = 1.0, code::GeneticCode)
 
-Compute dN and dS, using the [Nei and Goborjei 1986](https://www.ncbi.nlm.nih.gov/pubmed/3444411) method.
+Compute dN and dS, using the [Nei and Gojobori 1986](https://www.ncbi.nlm.nih.gov/pubmed/3444411) method.
 
-This function requires two iterables `x` and `y`, which yield `DNACodon` or
-`RNACodon` type variables. These two types are defined in the BioSequences
+This function requires two iterables `x` and `y`, which yield `Codon{DNA}` or
+`Codon{RNA}` type variables. These two types are defined in the BioSequences
 package.
 """
 function dNdS_NG86(x, y, k::Float64 = 1.0, code::GeneticCode = DEFAULT_TRANS, addone::Bool = false)
@@ -22,7 +22,7 @@ end
 """
     dNdS_NG86(x::BioSequence{A}, y::BioSequence{A}, k::Float64, code::GeneticCode) where {A <: NucAlphs}
 
-Compute dN and dS, using the [Nei and Goborjei 1986](https://www.ncbi.nlm.nih.gov/pubmed/3444411) method.
+Compute dN and dS, using the [Nei and Gojobori 1986](https://www.ncbi.nlm.nih.gov/pubmed/3444411) method.
 
 This method adds conveinience when working with DNA or RNA sequences, by taking
 two sequences, and creating two vectors of aligned codons from them. These two
@@ -75,7 +75,7 @@ end
     S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: CDN}
 
 Enumerate the number of synonymous (S) and non-synonymous (N) sites in a codon,
-using the method used by [Nei and Goborjei (1986)](https://www.ncbi.nlm.nih.gov/pubmed/3444411).
+using the method used by [Nei and Gojobori (1986)](https://www.ncbi.nlm.nih.gov/pubmed/3444411).
 
 Returns a tuple where S is the first element and N is the second (S, N).
 
@@ -118,7 +118,7 @@ end
     DS_DN_NG86(x::C, y::C, code::GeneticCode) where C <: CDN
 
 Compute the number of synonymous (DS) and non-synonymous (DN) mutations between
-two codons, using the all paths method used by the [Nei and Goborjei (1986)](https://www.ncbi.nlm.nih.gov/pubmed/3444411).
+two codons, using the all paths method used by the [Nei and Gojobori (1986)](https://www.ncbi.nlm.nih.gov/pubmed/3444411).
 """
 function DS_DN_NG86(x::C, y::C, code::GeneticCode) where C <: Codon
     return DS_DN_enumerator(AllPaths, x, y, code)

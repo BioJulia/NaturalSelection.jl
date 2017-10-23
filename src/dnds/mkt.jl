@@ -6,7 +6,7 @@
 # This file is a part of BioJulia.
 # License is MIT: https://github.com/BioJulia/BioSequences.jl/blob/master/LICENSE.md
 
-function codondiff(sequences::Vector{Vector{DNACodon}}, position::Integer)
+function codondiff(sequences::Vector{Vector{Codon{DNA}}}, position::Integer)
     s = CodonSet{DNA}()
     @inbounds for seq in sequences
         s |= seq[position]
@@ -14,7 +14,7 @@ function codondiff(sequences::Vector{Vector{DNACodon}}, position::Integer)
     return s
 end
 
-function codondiff(sequences::Vector{Vector{DNACodon}})
+function codondiff(sequences::Vector{Vector{Codon{DNA}}})
     out = Vector{CodonSet{DNA}}(length(sequences[1]))
     @inbounds for site in eachindex(sequences[1])
         out[site] = codondiff(sequences, site)
