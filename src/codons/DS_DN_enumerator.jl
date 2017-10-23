@@ -8,7 +8,7 @@
 # This file is a part of BioJulia.
 # License is MIT: https://github.com/BioJulia/NaturalSelection.jl/blob/master/LICENSE.md
 
-abstract type DS_DN_counter
+abstract type DS_DN_counter end
 
 const ONEPATH = Val{1}()
 const TWOPATHS = Val{2}()
