@@ -13,8 +13,8 @@ function make_rank_lookup(code::GeneticCode)
     k = 1
     for i in 0x00:0x3F
         for j in (i + 1):0x3F
-            x = DNACodon(UInt64(i))
-            y = DNACodon(UInt64(j))
+            x = BioSequences.DNACodon(UInt64(i))
+            y = BioSequences.DNACodon(UInt64(j))
             DS, DN = DS_DN_enumerator(ShortestPath, x, y, code)
             table[k] = rankof(Integer(DS), Integer(DN))
             k += 1
