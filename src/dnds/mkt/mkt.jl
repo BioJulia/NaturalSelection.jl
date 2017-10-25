@@ -28,7 +28,7 @@ end
 
 function multi_short_path(codonset::CodonSet{T},
                           codoncache::Vector{Codon{T}},
-                          edgecache::Vector{Tuple{Codon{T}, Codon{T}, Int}}
+                          edgecache::Vector{Tuple{Codon{T}, Codon{T}, Int}},
                           rankref::PairwiseListMatrix) where T <: NucleicAcid
 
     # Fill the codon cache with codons from the codon set.
