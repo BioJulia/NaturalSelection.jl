@@ -51,4 +51,4 @@ function aligned_codons(v::Vector{DNASequence}, start::Int = 1)
 end
 
 include("NG86.jl")
-include("mkt.jl")
+include("mkt/mkt.jl")
