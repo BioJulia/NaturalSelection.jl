@@ -4,7 +4,7 @@ struct PGEdge{C<:Codon}
     J::C
 end
 
-Base.isless(x::PGEdge{C}, y::PGEdge{C}) where c <: Codon = isless(x.rank, y.rank)
+Base.isless(x::PGEdge{C}, y::PGEdge{C}) where C <: Codon = isless(x.rank, y.rank)
 
 mutable struct ParsimonyGraph{C<:Codon}
     nvertices::Int
