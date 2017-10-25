@@ -7,6 +7,7 @@
 # License is MIT: https://github.com/BioJulia/BioSequences.jl/blob/master/LICENSE.md
 
 include("lookups.jl")
+include("codon_parsimony_graph.jl")
 
 function codondiff(sequences::Vector{Vector{Codon{DNA}}}, position::Integer)
     s = CodonSet{DNA}()
@@ -28,7 +29,7 @@ end
 
 function multi_short_path(codonset::CodonSet{T},
                           codoncache::Vector{Codon{T}},
-                          edgecache::Vector{Tuple{Codon{T}, Codon{T}, Int}},
+                          edgecache::Vector{Int, Tuple{Codon{T}, Codon{T}}},
                           rankref::PairwiseListMatrix) where T <: NucleicAcid
 
     # Fill the codon cache with codons from the codon set.
