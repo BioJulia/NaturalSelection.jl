@@ -39,6 +39,8 @@ function DS_DN_enumerator(::Type{T}, x::Codon, y::Codon, code::GeneticCode = DEF
         return 0.0, 0.0
     else
         diff_positions, n_diffs = find_differences(x, y) # Which positions are different.
+        println(bits(diff_positions))
+        println(n_diffs)
         if n_diffs == 1
             println(x, " --> ", y, ": A single mutation occurs!")
             println(code[x], " --> ", code[y])
@@ -55,7 +57,7 @@ function DS_DN_enumerator(::Type{T}, x::Codon, y::Codon, code::GeneticCode = DEF
             # 1: CTA (L) -> GTA (V) -> GTT (V) : 1 nonsynonymous change and 1 synonymous change.
             # 2: CTA (L) -> CTT (L) -> GTT (V) : 1 nonsynonymous change and 1 synonymous change.
             @inbounds for pos in 1:3
-                if (diff_positions & (0x01 << (pos - 1))) > 0x00
+                if ((diff_positions >> (3 - pos)) & 0x01) == 0x01
                     temp_cdn = splice_into(x, y, pos)
                     println(x, " --> ", temp_cdn, " --> ", y)
                     println(code[x], " --> ", code[temp_cdn], " --> ", code[y])
