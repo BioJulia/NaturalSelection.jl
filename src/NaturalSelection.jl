@@ -33,6 +33,8 @@ import GeneticVariation:
     Segregating,
     avg_mut
 
+using PairwiseListMatrices
+
 const DEFAULT_TRANS = BioSequences.ncbi_trans_table[1]
 const Codon{T} = BioSequences.Kmer{T, 3}
 
