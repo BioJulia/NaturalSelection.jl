@@ -20,11 +20,21 @@ function make_rank_lookup(code::GeneticCode)
             k += 1
         end
     end
-    return PairwiseListMatrix(table)
+    return table
 end
 
 const DEFAULT_RANK_TABLE = make_rank_lookup(DEFAULT_TRANS)
 
-function lookup(table::PairwiseListMatrix, i::T, j::T) where T <: Codon
-    return table[UInt64(i) + 1, UInt64(j) + 1]
+@inline function ij_to_k(i, j)
+    nelements = 64
+    x = nelements - i
+    return div(nelements * (nelements-1) - (x * (x - 1)), 2) - nelements + j
+end
+
+@inline function codons_to_k(i::T, j::T) where T <: Codon
+    return ij_to_k(UInt64(i) + 1, UInt64(j) + 1)
+end
+
+@inline function lookup(table, i::T, j::T) where T <: Codon
+    @inbounds return table[codons_to_k(i, j)]
 end
