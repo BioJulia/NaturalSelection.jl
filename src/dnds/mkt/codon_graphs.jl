@@ -15,7 +15,7 @@ struct CodonGraphReference{C <: Codon}
 end
 
 function CodonGraphReference{C}(code::GeneticCode) where C <: Codon
-    edgetable = make_edge_reference(code)
+    edgetable = make_edge_reference(C, code)
     edgetable_perm = sortperm(edgetable, by = x -> x[3])
     edgetable_order = zeros(edgetable_perm)
     for i in eachindex(edgetable_perm)
@@ -25,7 +25,7 @@ function CodonGraphReference{C}(code::GeneticCode) where C <: Codon
     return CodonGraphReference{C}(edgetable, edgetable_perm, edgetable_order)
 end
 
-function make_edge_reference(code::GeneticCode{C}) where C <: Codon
+function make_edge_reference(::Type{C}, code::GeneticCode) where C <: Codon
     edges = Vector{Tuple{C, C, Int}}(2016)
     k = 1
     for i in 0x00:0x3F
@@ -89,9 +89,9 @@ function reset!(cg::CodonGraph, cs::CodonSet)
     # cg.ref.edge_order. This removes the need to sort a lot, removing a key
     # bottleneck in Kruskal's algorithm.
     fill!(cg.edges, false)
-    for i in 1:cg.nv
+    @inbounds for i in 1:cg.nv
         x = cg.vertices[i]
-        @inbounds for j in (i + 1):(cg.nv)
+        for j in (i + 1):(cg.nv)
             y = cg.vertices[j]
             e = lookup_order(cg.ref, x, y)
             cg.edges[e] = true
@@ -101,7 +101,7 @@ end
 
 @inline Base.start(x::CodonGraph) = findnext(x, 1)
 @inline function Base.next(x::CodonGraph, state::Int)
-    @inbounds e = x.ref.edges[x.ref.edge_permutation[state]]
+    e = x.ref.edges[x.ref.edge_permutation[state]]
     s = findnext(x, state + 1)
     return e, s
 end
