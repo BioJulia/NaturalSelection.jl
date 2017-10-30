@@ -52,10 +52,10 @@ struct MSTState{C <: Codon}
 end
 
 function MSTState{C}() where C <: Codon
-    MSTState{C}(collect(1:64), zeros(Int, 64))
+    MSTState{C}(collect((C(i) for i in 1:64)), zeros(Int, 64))
 end
 
 @inline function reset!(x::MSTState{C}) where C <: Codon
     fill!(x.ranks, 0)
-    copy!(x.parents, 1:64)
+    copy!(x.parents, (C(i) for i in 1:64))
 end
