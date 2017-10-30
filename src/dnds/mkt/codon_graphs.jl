@@ -25,8 +25,8 @@ function CodonGraphReference{C}(code::GeneticCode) where C <: Codon
     return CodonGraphReference{C}(edgetable, edgetable_perm, edgetable_order)
 end
 
-function make_edge_reference(code::GeneticCode)
-    edges = Vector{Tuple{Codon{DNA}, Codon{DNA}, Int}}(2016)
+function make_edge_reference(code::GeneticCode{C}) where C <: Codon
+    edges = Vector{Tuple{C, C, Int}}(2016)
     k = 1
     for i in 0x00:0x3F
         for j in (i + 1):0x3F
