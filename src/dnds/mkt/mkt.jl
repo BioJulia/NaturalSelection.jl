@@ -6,8 +6,8 @@
 # This file is a part of BioJulia.
 # License is MIT: https://github.com/BioJulia/BioSequences.jl/blob/master/LICENSE.md
 
-include("lookups.jl")
-include("codon_graphs.jl")
+include("refs_and_graphs/lookups.jl")
+include("refs_and_graphs/codon_graphs.jl")
 
 function codondiff(sequences::Vector{Vector{Codon{DNA}}}, position::Integer)
     s = CodonSet{DNA}()
@@ -68,7 +68,7 @@ function mst(V, E)
     return tree
 end
 
-function mst(codongraph, state)
+function mst(codongraph::CodonGraph, state::MSTState)
     reset!(state)
     for (v1, v2, weight) in codongraph
         if find(v1, parents) != find(v2, parents)
