@@ -8,8 +8,8 @@ const DSDN_RANK_LOOKUP = [0 2 5 9;
     @inbounds return DSDN_RANK_LOOKUP[DS + 1, DN + 1]
 end
 
-struct CodonGraphReference{C<:Codon}
-    edges::Vector{Tuple{C,C,Int}}
+struct CodonGraphReference{C <: Codon}
+    edges::Vector{Tuple{C, C, Int}}
     edge_permutation::Vector{Int}
     edge_order::Vector{Int}
 end
@@ -26,7 +26,7 @@ function CodonGraphReference{C}(code::GeneticCode) where C <: Codon
 end
 
 function make_edge_reference(code::GeneticCode)
-    edges = Vector{Tuple{DNACodon,DNACodon,Int}}(2016)
+    edges = Vector{Tuple{Codon{DNA}, Codon{DNA}, Int}}(2016)
     k = 1
     for i in 0x00:0x3F
         for j in (i + 1):0x3F
@@ -43,7 +43,7 @@ end
 @inline function ij_to_k(i::Integer, j::Integer)
     nelements = 64
     x = nelements - i
-    return div(nelements * (nelements-1) - (x * (x - 1)), 2) - nelements + j
+    return div(nelements * (nelements - 1) - (x * (x - 1)), 2) - nelements + j
 end
 
 @inline function codons_to_k(i::T, j::T) where T <: Codon
@@ -106,8 +106,12 @@ end
     return e, s
 end
 @inline Base.done(x::CodonGraph, state::Int) = state == 0
+Base.eltype(x::CodonGraph{C}) where C <: Codon = Tuple{C, C, Int}
+Base.iteratorsize(::Type{CodonGraph{C}}) where C <: Codon = HasLength()
+Base.iteratoreltype(::Type{CodonGraph{C}}) where C <: Codon = HasEltype()
+Base.length(x::CodonGraph) = count(x.edges)
 
-struct MSTState{C<:Codon}
+struct MSTState{C <: Codon}
     parents::Vector{C}
     ranks::Vector{Int}
 end
