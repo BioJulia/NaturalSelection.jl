@@ -7,7 +7,7 @@ mutable struct CodonGraph{C<:Codon}
 end
 
 function CodonGraph{C}(ref::CodonGraphReference{C}) where C <: Codon
-    return CodonGraph{C}(ref, Vector{C}(64), flases(2016))
+    return CodonGraph{C}(ref, Vector{C}(64), falses(2016))
 end
 
 function CodonGraph{C}(code::GeneticCode) where C <: Codon
