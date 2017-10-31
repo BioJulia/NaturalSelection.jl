@@ -34,10 +34,10 @@ function reset!(cg::CodonGraph, cs::CodonSet)
     end
 end
 
-@inline Base.start(x::CodonGraph) = findnext(x, 1)
+@inline Base.start(x::CodonGraph) = findnext(x.edges, 1)
 @inline function Base.next(x::CodonGraph, state::Int)
     e = x.ref.edges[x.ref.edge_permutation[state]]
-    s = findnext(x, state + 1)
+    s = findnext(x.edges, state + 1)
     return e, s
 end
 @inline Base.done(x::CodonGraph, state::Int) = state == 0
