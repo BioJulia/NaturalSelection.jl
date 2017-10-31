@@ -9,14 +9,14 @@ const DSDN_RANK_LOOKUP = [0 2 5 9;
 end
 
 struct CodonGraphReference{C <: Codon}
-    edges::Vector{Tuple{C, C, Int}}
+    edges::Vector{Tuple{C, C, Int, Int}}
     edge_permutation::Vector{Int}
     edge_order::Vector{Int}
 end
 
 function CodonGraphReference{C}(code::GeneticCode) where C <: Codon
     edgetable = make_edge_reference(C, code)
-    edgetable_perm = sortperm(edgetable, by = x -> x[3])
+    edgetable_perm = sortperm(edgetable, by = x -> rankof(x[3], x[4]))
     edgetable_order = zeros(edgetable_perm)
     for i in eachindex(edgetable_perm)
         perm = edgetable_perm[i]
@@ -33,7 +33,7 @@ function make_edge_reference(::Type{C}, code::GeneticCode) where C <: Codon
             x = C(UInt64(i))
             y = C(UInt64(j))
             DS, DN = DS_DN_enumerator(ShortestPath, x, y, code)
-            edges[k] = (x, y, rankof(Integer(DS), Integer(DN)))
+            edges[k] = (x, y, Integer(DS), Integer(DN))
             k += 1
         end
     end
