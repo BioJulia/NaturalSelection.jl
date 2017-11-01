@@ -38,21 +38,6 @@ function find(vertex::C, state::MSTState{C}) where C <: Codon
     return parentof(vertex, state)
 end
 
-function union(v1::C, v2::C, state::MSTState{C}) where C <: Codon
-    r1 = find(v1, p)
-    r2 = find(v2, p)
-    if r1 != r2
-        if r[r1] > r[r2]
-            p[r2] = r1
-        else
-            p[r1] = r2
-            if r[r1] == r[r2]
-                r[r2] += 1
-            end
-        end
-    end
-end
-
 function union(vertexa::C, vertexb::C, state::MSTState{C}) where C <: Codon
     roota = find(vertexa, state)
     rootb = find(vertexb, state)
