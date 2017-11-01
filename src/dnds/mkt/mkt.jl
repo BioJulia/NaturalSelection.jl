@@ -51,7 +51,7 @@ function div_count(csa::CodonSet{T}, csb::CodonSet{T}, ref::CodonGraphReference{
     return DS, DN
 end
 
-function site_count(csa::CodonSet{T}, csb::CodonSet{T}, cg::CodonGraph{Codon{T}}, msts::MSTSState{Codon{T}}) where T <: NucleicAcid
+function site_count(csa::CodonSet{T}, csb::CodonSet{T}, cg::CodonGraph{Codon{T}}, msts::MSTState{Codon{T}}) where T <: NucleicAcid
     a = simplest_mutation_path(cs, cg, msts)
 
 end
