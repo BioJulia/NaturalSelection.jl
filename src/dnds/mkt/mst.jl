@@ -23,7 +23,7 @@ end
 end
 
 @inline function rankof(vertex::C, state::MSTState{C}) where C <: Codon
-    @inbounds return state.rank[cdn2i(vertex)]
+    @inbounds return state.ranks[cdn2i(vertex)]
 end
 
 @inline function incrank(vertex::C, state::MSTState{C}) where C <: Codon
