@@ -36,10 +36,7 @@ end
 
 @inline Base.start(x::CodonGraph) = findnext(x.edges, 1)
 @inline function Base.next(x::CodonGraph, state::Int)
-    e = x.ref.edges[x.ref.permutation[state]]
-    println(e)
     e = lookup_edge(x.ref, state)
-    println(e)
     s = findnext(x.edges, state + 1)
     return e, s
 end

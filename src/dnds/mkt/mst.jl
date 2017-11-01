@@ -62,7 +62,7 @@ function mst(codongraph::CodonGraph, state::MSTState)
         if find(v1, state) != find(v2, state)
             println("Edge: ", v1, " --> ", v2, " added to tree.")
             println("Edge DS cost: ", DS_i, ". Edge DN cost: ", DN_i)
-            union(v1, v2, parents, ranks)
+            union(v1, v2, state)
             DS += DS_i
             DN += DN_i
         end
