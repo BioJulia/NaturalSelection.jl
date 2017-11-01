@@ -10,8 +10,8 @@ end
 
 struct CodonGraphReference{C <: Codon}
     edges::Vector{Tuple{C, C, Int, Int}}
-    edge_permutation::Vector{Int}
-    edge_order::Vector{Int}
+    permutation::Vector{Int}
+    order::Vector{Int}
 end
 
 function CodonGraphReference{C}(code::GeneticCode) where C <: Codon
@@ -50,16 +50,16 @@ end
     return ij_to_k(UInt64(i) + 1, UInt64(j) + 1)
 end
 
-@inline function lookup_edge(table::CodonGraphReference{T}, i::T, j::T) where T <: Codon
-    @inbounds return table.edges[codons_to_k(i, j)]
+@inline function lookup_edge(table::CodonGraphReference, i::Int)
+    @inbounds return table.edges[table.permutation[i]]
 end
 
 @inline function lookup_perm(table::CodonGraphReference{T}, i::T, j::T) where T <: Codon
-    @inbounds return table.edge_permutation[codons_to_k(i, j)]
+    @inbounds return table.permutation[codons_to_k(i, j)]
 end
 
 @inline function lookup_order(table::CodonGraphReference{T}, i::T, j::T) where T <: Codon
-    @inbounds return table.edge_order[codons_to_k(i, j)]
+    @inbounds return table.order[codons_to_k(i, j)]
 end
 
 const DEFAULT_CODON_GRAPH_REFERENCE = CodonGraphReference{Codon{DNA}}(DEFAULT_TRANS)

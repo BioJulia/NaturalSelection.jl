@@ -36,26 +36,15 @@ end
 
 @inline Base.start(x::CodonGraph) = findnext(x.edges, 1)
 @inline function Base.next(x::CodonGraph, state::Int)
-    e = x.ref.edges[x.ref.edge_permutation[state]]
+    e = x.ref.edges[x.ref.permutation[state]]
+    println(e)
+    e = lookup_edge(x.ref, state)
+    println(e)
     s = findnext(x.edges, state + 1)
     return e, s
 end
 @inline Base.done(x::CodonGraph, state::Int) = state == 0
-Base.eltype(x::CodonGraph{C}) where C <: Codon = Tuple{C, C, Int}
+Base.eltype(x::CodonGraph{C}) where C <: Codon = Tuple{C, C, Int, Int}
 Base.iteratorsize(::Type{CodonGraph{C}}) where C <: Codon = HasLength()
 Base.iteratoreltype(::Type{CodonGraph{C}}) where C <: Codon = HasEltype()
 Base.length(x::CodonGraph) = count(x.edges)
-
-struct MSTState{C <: Codon}
-    parents::Vector{C}
-    ranks::Vector{Int}
-end
-
-function MSTState{C}() where C <: Codon
-    MSTState{C}(collect((C(i) for i in UInt64(0):UInt64(63))), zeros(Int, 64))
-end
-
-@inline function reset!(x::MSTState{C}) where C <: Codon
-    fill!(x.ranks, 0)
-    copy!(x.parents, (C(i) for i in UInt64(0):UInt64(63)))
-end
