@@ -41,6 +41,7 @@ function make_edge_reference(::Type{C}, code::GeneticCode) where C <: Codon
 end
 
 @inline function ij_to_k(i::Integer, j::Integer)
+    i, j = ifelse(i > j, (j, i), (i, j))
     nelements = 64
     x = nelements - i
     return div(nelements * (nelements - 1) - (x * (x - 1)), 2) - nelements + j
@@ -48,6 +49,10 @@ end
 
 @inline function codons_to_k(i::T, j::T) where T <: Codon
     return ij_to_k(UInt64(i) + 1, UInt64(j) + 1)
+end
+
+@inline function lookup_edge(table::CodonGraphReference{T}, i::T, j::T) where T <: Codon
+    @inbounds return table.edges[codons_to_k(i, j)]
 end
 
 @inline function lookup_edge(table::CodonGraphReference, i::Int)

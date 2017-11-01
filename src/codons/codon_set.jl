@@ -30,6 +30,10 @@ end
     return x | UInt64(1) << UInt64(y)
 end
 
+@inline function Base.:&(x::CodonSet{T}, y::CodonSet{T}) where T <: NucleicAcid
+    return reinterpret(CodonSet{T}, reinterpret(UInt64, x) & reinterpret(UInt64, y))
+end
+
 
 # Iteration interface
 # -------------------

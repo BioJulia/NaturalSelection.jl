@@ -27,7 +27,7 @@ end
 end
 
 @inline function incrank(vertex::C, state::MSTState{C}) where C <: Codon
-    state.ranks[cdn2i(vertex)] += 1
+    @inbounds state.ranks[cdn2i(vertex)] += 1
 end
 
 function find(vertex::C, state::MSTState{C}) where C <: Codon
