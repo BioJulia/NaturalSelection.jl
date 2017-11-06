@@ -16,7 +16,10 @@ export
     S_N_NG86,
     DS_DN_NG86,
     tajimad,
-    mkt
+    mkt,
+    make_edge_reference
+
+
 
 import BioSequences:
     BioSequences,
