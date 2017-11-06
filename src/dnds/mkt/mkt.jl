@@ -10,7 +10,8 @@ include("refs_and_graphs/lookups.jl")
 include("refs_and_graphs/codon_graphs.jl")
 include("mst.jl")
 
-function CodonSet{T}(sequences::Vector{Vector{Codon{T}}}, position::Integer) where T <: NucleicAcid
+function CodonSet{T}(sequences::Vector{Vector{Codon{T}}},
+                     position::Integer) where T <: NucleicAcid
     s = CodonSet{T}()
     @inbounds for seq in sequences
         s |= seq[position]
@@ -18,16 +19,23 @@ function CodonSet{T}(sequences::Vector{Vector{Codon{T}}}, position::Integer) whe
     return s
 end
 
-function simplest_mutation_path(cs::CodonSet{T}, cg::CodonGraph{Codon{T}}, msts::MSTState{Codon{T}}) where T <: NucleicAcid
+function simplest_mutation_path(cs::CodonSet{T},
+                                cg::CodonGraph{Codon{T}},
+                                msts::MSTState{Codon{T}}) where T <: NucleicAcid
     reset!(cg, cs)
     return mst(cg, msts)
 end
 
-function poly_count(csa::CodonSet{T}, cg::CodonGraph{Codon{T}}, msts::MSTState{Codon{T}}) where T <: NucleicAcid
+function poly_count(csa::CodonSet{T},
+                    cg::CodonGraph{Codon{T}},
+                    msts::MSTState{Codon{T}}) where T <: NucleicAcid
+
     return simplest_mutation_path(cs, cg, msts)
 end
 
-function div_count(csa::CodonSet{T}, csb::CodonSet{T}, ref::CodonGraphReference{Codon{T}}) where T <: NucleicAcid
+function div_count(csa::CodonSet{T},
+                   csb::CodonSet{T},
+                   ref::CodonGraphReference{Codon{T}}) where T <: NucleicAcid
     DS = DN = 0
     R = 10
     if (csa & csb) == CodonSet{T}()
@@ -47,7 +55,10 @@ function div_count(csa::CodonSet{T}, csb::CodonSet{T}, ref::CodonGraphReference{
     return DS, DN
 end
 
-function mkt_PSPN(x::CodonSet{T}, y::CodonSet{T}, cg::CodonGraph{Codon{T}}) where T <: NucleicAcid
+function mkt_PSPN(x::CodonSet{T},
+                  y::CodonSet{T},
+                  cg::CodonGraph{Codon{T}}) where T <: NucleicAcid
+
     a = poly_count(x, cg, msts)
     b = poly_count(y, cg, msts)
     return a[1] + b[1], a[2] + b[2]
@@ -55,7 +66,10 @@ end
 
 mkt_α(PS, PN, DS, DN) = 1 - (DS * PN) / (DN * PS)
 
-function mkt(x::Vector{Vector{Codon{T}}}, y::Vector{Vector{Codon{T}}}, ref::CodonGraphReference{Codon{T}}) where T <: NucleicAcid
+function mkt(x::Vector{Vector{Codon{T}}},
+             y::Vector{Vector{Codon{T}}},
+             ref::CodonGraphReference{Codon{T}} = DEFAULT_CODON_GRAPH_REFERENCE) where T <: NucleicAcid
+
     n = min(minimum(length(xi) for xi in x), minimum(length(yi) for yi in y))
     graph = CodonGraph{Codon{T}}(ref)
     for i in 1:n

@@ -15,7 +15,8 @@ export
     dNdS_NG86,
     S_N_NG86,
     DS_DN_NG86,
-    tajimad
+    tajimad,
+    mkt
 
 import BioSequences:
     BioSequences,
