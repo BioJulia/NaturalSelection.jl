@@ -10,25 +10,21 @@ include("refs_and_graphs/lookups.jl")
 include("refs_and_graphs/codon_graphs.jl")
 include("mst.jl")
 
-function codondiff(sequences::Vector{Vector{Codon{DNA}}}, position::Integer)
-    s = CodonSet{DNA}()
+function CodonSet{T}(sequences::Vector{Vector{Codon{T}}}, position::Integer) where T <: NucleicAcid
+    s = CodonSet{T}()
     @inbounds for seq in sequences
         s |= seq[position]
     end
     return s
 end
 
-function codondiff(sequences::Vector{Vector{Codon{DNA}}})
-    out = Vector{CodonSet{DNA}}(length(sequences[1]))
-    @inbounds for site in eachindex(sequences[1])
-        out[site] = codondiff(sequences, site)
-    end
-    return out
-end
-
 function simplest_mutation_path(cs::CodonSet{T}, cg::CodonGraph{Codon{T}}, msts::MSTState{Codon{T}}) where T <: NucleicAcid
     reset!(cg, cs)
     return mst(cg, msts)
+end
+
+function poly_count(csa::CodonSet{T}, cg::CodonGraph{Codon{T}}, msts::MSTState{Codon{T}}) where T <: NucleicAcid
+    return simplest_mutation_path(cs, cg, msts)
 end
 
 function div_count(csa::CodonSet{T}, csb::CodonSet{T}, ref::CodonGraphReference{Codon{T}}) where T <: NucleicAcid
@@ -38,8 +34,8 @@ function div_count(csa::CodonSet{T}, csb::CodonSet{T}, ref::CodonGraphReference{
         for i in csa
             for j in csb
                 edge = lookup_edge(ref, i, j)
-                DS_i = edge[3]
-                DN_i = edge[4]
+                @inbounds DS_i = edge[3]
+                @inbounds DN_i = edge[4]
                 R_i = rankof(DS_i, DN_i)
                 lowrank = R_i < R
                 DS = ifelse(lowrank, DS_i, DS)
@@ -51,12 +47,27 @@ function div_count(csa::CodonSet{T}, csb::CodonSet{T}, ref::CodonGraphReference{
     return DS, DN
 end
 
-function site_count(csa::CodonSet{T}, csb::CodonSet{T}, cg::CodonGraph{Codon{T}}, msts::MSTState{Codon{T}}) where T <: NucleicAcid
-    a = simplest_mutation_path(cs, cg, msts)
-
+function mkt_PSPN(x::CodonSet{T}, y::CodonSet{T}, cg::CodonGraph{Codon{T}}) where T <: NucleicAcid
+    a = poly_count(x, cg, msts)
+    b = poly_count(y, cg, msts)
+    return a[1] + b[1], a[2] + b[2]
 end
 
-function mkt(sa::Vector{Vector{Codon{DNA}}}, sb::Vector{Vector{Codon{DNA}}})
+mkt_α(PS, PN, DS, DN) = 1 - (DS * PN) / (DN * PS)
 
+function mkt(x::Vector{Vector{Codon{T}}}, y::Vector{Vector{Codon{T}}}, ref::CodonGraphReference{Codon{T}}) where T <: NucleicAcid
+    n = min(minimum(length(xi) for xi in x), minimum(length(yi) for yi in y))
+    graph = CodonGraph{Codon{T}}(ref)
+    for i in 1:n
+        xset = CodonSet{T}(x, i)
+        yset = CodonSet{T}(y, i)
 
+        println(collect(xset))
+        println(collect(yset))
+
+        PS, PN = mkt_PSPN(xset, yset, graph)
+        DS, DN = div_count(xset, yset, ref)
+    end
+    α = mkt_α(PS, PN, DS, DN)
+    return PS, PN, DS, DN, α
 end
