@@ -57,7 +57,8 @@ end
 
 function mkt_PSPN(x::CodonSet{T},
                   y::CodonSet{T},
-                  cg::CodonGraph{Codon{T}}) where T <: NucleicAcid
+                  cg::CodonGraph{Codon{T}},
+                  msts::MSTState{Codon{T}}) where T <: NucleicAcid
 
     a = poly_count(x, cg, msts)
     b = poly_count(y, cg, msts)
@@ -72,6 +73,7 @@ function mkt(x::Vector{Vector{Codon{T}}},
 
     n = min(minimum(length(xi) for xi in x), minimum(length(yi) for yi in y))
     graph = CodonGraph{Codon{T}}(ref)
+    msts = MSTState{Codon{T}}()
     for i in 1:n
         xset = CodonSet{T}(x, i)
         yset = CodonSet{T}(y, i)
@@ -79,7 +81,7 @@ function mkt(x::Vector{Vector{Codon{T}}},
         println(collect(xset))
         println(collect(yset))
 
-        PS, PN = mkt_PSPN(xset, yset, graph)
+        PS, PN = mkt_PSPN(xset, yset, graph, msts)
         DS, DN = div_count(xset, yset, ref)
     end
     α = mkt_α(PS, PN, DS, DN)
