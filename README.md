@@ -18,8 +18,8 @@
 
 ## Description
 
-NaturalSelection.jl provides methods for detecting the presence, strength and effects of
-natural selection, in biological data.
+NaturalSelection.jl provides methods for detecting the presence, strength and
+effects of natural selection, in biological data.
 
 
 ## Installation
@@ -42,5 +42,4 @@ for more information.
 
 If you have a question about
 contributing or using this package, you are encouraged to use the
-[Bio category of the Julia discourse
-site](https://discourse.julialang.org/c/domain/bio).
+[Bio category of the Julia discourse site](https://discourse.julialang.org/c/domain/bio).
