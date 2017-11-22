@@ -74,6 +74,7 @@ function mkt(x::Vector{Vector{Codon{T}}},
     n = min(minimum(length(xi) for xi in x), minimum(length(yi) for yi in y))
     graph = CodonGraph{Codon{T}}(ref)
     msts = MSTState{Codon{T}}()
+    PS = PN = DS = DN = 0
     for i in 1:n
         xset = CodonSet{T}(x, i)
         yset = CodonSet{T}(y, i)
@@ -81,8 +82,13 @@ function mkt(x::Vector{Vector{Codon{T}}},
         println(collect(xset))
         println(collect(yset))
 
-        PS, PN = mkt_PSPN(xset, yset, graph, msts)
-        DS, DN = div_count(xset, yset, ref)
+        PS_i, PN_i = mkt_PSPN(xset, yset, graph, msts)
+        DS_i, DN_i = div_count(xset, yset, ref)
+
+        PS += PS_i
+        PN += PN_i
+        DS +- DS_i
+        DN += DN_i
     end
     α = mkt_α(PS, PN, DS, DN)
     return PS, PN, DS, DN, α
