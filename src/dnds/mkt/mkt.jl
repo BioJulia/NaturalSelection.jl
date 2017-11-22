@@ -26,7 +26,7 @@ function simplest_mutation_path(cs::CodonSet{T},
     return mst(cg, msts)
 end
 
-function poly_count(csa::CodonSet{T},
+function poly_count(cs::CodonSet{T},
                     cg::CodonGraph{Codon{T}},
                     msts::MSTState{Codon{T}}) where T <: NucleicAcid
 
