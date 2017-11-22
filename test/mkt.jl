@@ -4,8 +4,8 @@
         testseqs = [[dna"AAAGGGCCC", dna"AGAGGGCGC"],
                     [dna"AACGGGCCG", dna"ACAGGGCCC"]]
 
-        @test mkt(aligned_codons(NaturalSelection.testseqs[1]),
-                  aligned_codons(NaturalSelection.testseqs[2])) == (2, 3, 0, 1, 1.0)
+        @test mkt(NaturalSelection.aligned_codons(testseqs[1]),
+                  NaturalSelection.aligned_codons(testseqs[2])) == (2, 3, 0, 1, 1.0)
     end
 
 end
