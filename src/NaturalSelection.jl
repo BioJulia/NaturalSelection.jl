@@ -19,8 +19,6 @@ export
     mkt,
     make_edge_reference
 
-
-
 import BioSequences:
     BioSequences,
     DNA,
