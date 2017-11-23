@@ -13,7 +13,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Home",
     "title": "NaturalSelection.jl",
     "category": "section",
-    "text": "(Image: Latest Release) (Image: NaturalSelection) (Image: License) (Image: BioJulia maintainer: bicycle1885) (Image: BioJulia maintainer: Ward9250)Development builds: (Image: Build Status) (Image: Build status) (Image: codecov)"
+    "text": "Latest release:(Image: Latest Release) (Image: NaturalSelection) (Image: License) (Image: ) (Image: BioJulia maintainer: Ward9250)Development status:(Image: Build Status) (Image: Build status) (Image: codecov) (Image: )"
 },
 
 {
@@ -29,7 +29,15 @@ var documenterSearchIndex = {"docs": [
     "page": "Home",
     "title": "Installation",
     "category": "section",
-    "text": "Install NaturalSelection.jl from the Julia REPL:julia> Pkg.add(\"NaturalSelection\")If you are interested in the cutting edge of the development, please check out the master branch to try new features before release."
+    "text": "Install NaturalSelection from the Julia REPL:julia> Pkg.add(\"NaturalSelection\")If you are interested in the cutting edge of the development, please check out the master branch to try new features before release."
+},
+
+{
+    "location": "index.html#Contributing-and-Questions-1",
+    "page": "Home",
+    "title": "Contributing and Questions",
+    "category": "section",
+    "text": "We appreciate contributions from users including reporting bugs, fixing issues, improving performance and adding new features. Please go to the contributing section of the documentation for more information.If you have a question about contributing or using this package, you are encouraged to use the Bio category of the Julia discourse site."
 },
 
 {
@@ -53,7 +61,7 @@ var documenterSearchIndex = {"docs": [
     "page": "dNdS",
     "title": "NaturalSelection.dNdS_NG86",
     "category": "Function",
-    "text": "dNdS_NG86(x, y, k::Float64 = 1.0, code::GeneticCode)\n\nCompute dN and dS, using the Nei and Goborjei 1986 method.\n\nThis function requires two iterables x and y, which yield DNACodon or RNACodon type variables. These two types are defined in the BioSequences package.\n\n\n\ndNdS_NG86(x::BioSequence{A}, y::BioSequence{A}, k::Float64, code::GeneticCode) where {A <: NucAlphs}\n\nCompute dN and dS, using the Nei and Goborjei 1986 method.\n\nThis method adds conveinience when working with DNA or RNA sequences, by taking two sequences, and creating two vectors of aligned codons from them. These two iterables are then passed into the generic NG86 method.\n\n\n\n"
+    "text": "dNdS_NG86(x, y, k::Float64 = 1.0, code::GeneticCode)\n\nCompute dN and dS, using the Nei and Gojobori 1986 method.\n\nThis function requires two iterables x and y, which yield Codon{DNA} or Codon{RNA} type variables. These two types are defined in the BioSequences package.\n\n\n\ndNdS_NG86(x::BioSequence{A}, y::BioSequence{A}, k::Float64, code::GeneticCode) where {A <: NucAlphs}\n\nCompute dN and dS, using the Nei and Gojobori 1986 method.\n\nThis method adds conveinience when working with DNA or RNA sequences, by taking two sequences, and creating two vectors of aligned codons from them. These two iterables are then passed into the generic NG86 method.\n\n\n\n"
 },
 
 {
@@ -61,7 +69,7 @@ var documenterSearchIndex = {"docs": [
     "page": "dNdS",
     "title": "NaturalSelection.S_N_NG86",
     "category": "Function",
-    "text": "S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: CDN}\n\nEnumerate the number of synonymous (S) and non-synonymous (N) sites in a codon, using the method used by Nei and Goborjei (1986).\n\nReturns a tuple where S is the first element and N is the second (S, N).\n\nEach site in a codon may be both partially synonymous and non-synonymous.\n\n\n\n"
+    "text": "S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: CDN}\n\nEnumerate the number of synonymous (S) and non-synonymous (N) sites in a codon, using the method used by Nei and Gojobori (1986).\n\nReturns a tuple where S is the first element and N is the second (S, N).\n\nEach site in a codon may be both partially synonymous and non-synonymous.\n\n\n\n"
 },
 
 {
@@ -69,7 +77,7 @@ var documenterSearchIndex = {"docs": [
     "page": "dNdS",
     "title": "NaturalSelection.DS_DN_NG86",
     "category": "Function",
-    "text": "DS_DN_NG86(x::C, y::C, code::GeneticCode) where C <: CDN\n\nCompute the number of synonymous (DS) and non-synonymous (DN) mutations between two codons, using the all paths method used by the Nei and Goborjei (1986).\n\n\n\n"
+    "text": "DS_DN_NG86(x::C, y::C, code::GeneticCode) where C <: CDN\n\nCompute the number of synonymous (DS) and non-synonymous (DN) mutations between two codons, using the all paths method used by the Nei and Gojobori (1986).\n\n\n\n"
 },
 
 {
