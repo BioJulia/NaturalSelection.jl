@@ -15,11 +15,16 @@ export
     dNdS_NG86,
     S_N_NG86,
     DS_DN_NG86,
-    tajimad
+    tajimad,
+    mkt,
+    make_edge_reference
 
 import BioSequences:
     BioSequences,
+    DNA,
     BioSequence,
+    DNASequence,
+    NucleicAcid,
     Kmer,
     NucAlphs,
     GeneticCode,
@@ -29,6 +34,18 @@ import GeneticVariation:
     NL79,
     Segregating,
     avg_mut
+
+using PairwiseListMatrices
+
+const DEFAULT_TRANS = BioSequences.ncbi_trans_table[1]
+const Codon{T} = BioSequences.Kmer{T, 3}
+
+@inline bitindex(x::Kmer{T,K}, i::Integer) where {T,K} = 2 * (K - i)
+
+include("codons/codon_set.jl")
+include("codons/DS_DN_enumerator.jl")
+include("codons/allpaths.jl")
+include("codons/shortestpath.jl")
 
 include("dnds/dnds.jl")
 include("tajima.jl")

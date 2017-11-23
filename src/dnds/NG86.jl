@@ -9,10 +9,10 @@
 """
     dNdS_NG86(x, y, k::Float64 = 1.0, code::GeneticCode)
 
-Compute dN and dS, using the [Nei and Goborjei 1986](https://www.ncbi.nlm.nih.gov/pubmed/3444411) method.
+Compute dN and dS, using the [Nei and Gojobori 1986](https://www.ncbi.nlm.nih.gov/pubmed/3444411) method.
 
-This function requires two iterables `x` and `y`, which yield `DNACodon` or
-`RNACodon` type variables. These two types are defined in the BioSequences
+This function requires two iterables `x` and `y`, which yield `Codon{DNA}` or
+`Codon{RNA}` type variables. These two types are defined in the BioSequences
 package.
 """
 function dNdS_NG86(x, y, k::Float64 = 1.0, code::GeneticCode = DEFAULT_TRANS, addone::Bool = false)
@@ -22,7 +22,7 @@ end
 """
     dNdS_NG86(x::BioSequence{A}, y::BioSequence{A}, k::Float64, code::GeneticCode) where {A <: NucAlphs}
 
-Compute dN and dS, using the [Nei and Goborjei 1986](https://www.ncbi.nlm.nih.gov/pubmed/3444411) method.
+Compute dN and dS, using the [Nei and Gojobori 1986](https://www.ncbi.nlm.nih.gov/pubmed/3444411) method.
 
 This method adds conveinience when working with DNA or RNA sequences, by taking
 two sequences, and creating two vectors of aligned codons from them. These two
@@ -46,7 +46,7 @@ function pairwise_dNdS_NG86(x, opt...)
     return results
 end
 
-function _dNdS_NG86(x, y, k::Float64, code::GeneticCode, addone::Bool, xtype::Type{C}, ytype::Type{C}) where C <: CDN
+function _dNdS_NG86(x, y, k::Float64, code::GeneticCode, addone::Bool, xtype::Type{C}, ytype::Type{C}) where C <: Codon
     # Expected no. of syn and nonsyn sites.
     S = N = 0.0
     # Observed no. of syn and nonsyn mutations.
@@ -75,13 +75,13 @@ end
     S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: CDN}
 
 Enumerate the number of synonymous (S) and non-synonymous (N) sites in a codon,
-using the method used by [Nei and Goborjei (1986)](https://www.ncbi.nlm.nih.gov/pubmed/3444411).
+using the method used by [Nei and Gojobori (1986)](https://www.ncbi.nlm.nih.gov/pubmed/3444411).
 
 Returns a tuple where S is the first element and N is the second (S, N).
 
 Each site in a codon may be both partially synonymous and non-synonymous.
 """
-function S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: CDN}
+function S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: Codon}
     cdn_bits = UInt64(codon)
     aa = code[codon]
     S = N = 0.0
@@ -114,94 +114,14 @@ function S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: CDN}
     return (S / normalization), (N / normalization)
 end
 
-@inline bitindex(x::Kmer{T,K}, i::Integer) where {T,K} = 2 * (K - i)
-
-@inline function classify_mutation(x::C, y::C, code::GeneticCode, weight::Float64 = 1.0) where C <: CDN
-    if code[x] == code[y]
-        # Synonymous mutation.
-        return weight, 0.0
-    else
-        # non-synonymous mutation.
-        return 0.0, weight
-    end
-end
-
-function find_differences(x::C, y::C) where C <: CDN
-    diffs = 0x00
-    @inbounds for pos in 1:3
-        diffs = (x[pos] != y[pos]) | (diffs << 1)
-    end
-    return diffs, count_ones(diffs)
-end
-
-function splice_into(x::C, y::C, pos::Integer) where {C <: CDN}
-    mask = UInt64(3) << bitindex(x, pos)
-    return C((UInt64(x) & ~mask) | (UInt64(y) & mask))
-end
-
 """
     DS_DN_NG86(x::C, y::C, code::GeneticCode) where C <: CDN
 
 Compute the number of synonymous (DS) and non-synonymous (DN) mutations between
-two codons, using the all paths method used by the [Nei and Goborjei (1986)](https://www.ncbi.nlm.nih.gov/pubmed/3444411).
+two codons, using the all paths method used by the [Nei and Gojobori (1986)](https://www.ncbi.nlm.nih.gov/pubmed/3444411).
 """
-function DS_DN_NG86(x::C, y::C, code::GeneticCode) where C <: CDN
-    if x == y # Early escape, codons are the same, no syn or nonsyn mutations.
-        return 0.0, 0.0
-    else
-        diff_positions, n_diffs = find_differences(x, y) # Which positions are different.
-        if n_diffs == 1
-            # One site in the two codons is different. It is obvious and simple
-            # then to count whether it is a synonymous or nonsynonymous mutation.
-            DS, DN = classify_mutation(x, y, code)
-            return DS, DN
-        elseif n_diffs == 2
-            DS = DN = 0.0
-            # For two changes, the number of synonymous and non-synonymous
-            # differences per codon, sum to 2, there are two pathways,
-            # each possible pathway having two steps.
-            # For example, comparing CTA and GTT, the possible pathways are:
-            # 1: CTA (L) -> GTA (V) -> GTT (V) : 1 nonsynonymous change and 1 synonymous change.
-            # 2: CTA (L) -> CTT (L) -> GTT (V) : 1 nonsynonymous change and 1 synonymous change.
-            @inbounds for pos in 1:3
-                if (diff_positions & (0x01 << (pos - 1))) > 0x00
-                    temp_cdn = splice_into(x, y, pos)
-                    # Step 1 of pathway.
-                    DS_i, DN_i = classify_mutation(x, temp_cdn, code, 0.5)
-                    DS += DS_i
-                    DN += DN_i
-                    # Step 2 of pathway.
-                    DS_i, DN_i = classify_mutation(temp_cdn, y, code, 0.5)
-                    DS += DS_i
-                    DN += DN_i
-                end
-            end
-        elseif n_diffs == 3
-            DS = DN = 0.0
-            # For two changes, there are 6 pathways, each with three steps.
-            # For example, comparing CTA and GAT, the possible pathways are:
-            # 1: CTA (L) -> GTA (V) -> GAA (E) -> GAT (D) : 3 nonsynonymous changes.
-            # 2: CTA (L) -> GTA (V) -> GTT (V) -> GAT (D) : 2 nonsynonymous and 1 synonymous change.
-            # 3: CTA (L) -> CAA (Q) -> GAA (E) -> GAT (D) : 3 nonsynonymous changes.
-            # 4: CTA (L) -> CAA (Q) -> CAT (H) -> GAT (D) : 3 nonsynonymous changes.
-            # 5: CTA (L) -> CTT (L) -> GTT (V) -> GAT (D) : 2 nonsynonymous changes and 1 synonymous change.
-            # 6: CTA (L) -> CTT (L) -> CAT (H) -> GAT (D) : 2 nonsynonymous changes and 1 synonymous change.
-            @inbounds for path in SITE_PERMUTATIONS
-                tmp_cdn_a = splice_into(x, y, path[1])
-                tmp_cdn_b = splice_into(tmp_cdn_a, y, path[2])
-                DS_i, DN_i = classify_mutation(x, tmp_cdn_a, code, 0.5 / 3)
-                DS += DS_i
-                DN += DN_i
-                DS_i, DN_i = classify_mutation(tmp_cdn_a, tmp_cdn_b, code, 0.5 / 3)
-                DS += DS_i
-                DN += DN_i
-                DS_i, DN_i = classify_mutation(tmp_cdn_b, y, code, 0.5 / 3)
-                DS += DS_i
-                DN += DN_i
-            end
-        end
-        return DS, DN
-    end
+function DS_DN_NG86(x::C, y::C, code::GeneticCode) where C <: Codon
+    return DS_DN_enumerator(AllPaths, x, y, code)
 end
 
 @inline function d_(p::Float64)
