@@ -39,17 +39,12 @@ function DS_DN_enumerator(::Type{T}, x::Codon, y::Codon, code::GeneticCode = DEF
         return 0.0, 0.0
     else
         diff_positions, n_diffs = find_differences(x, y) # Which positions are different.
-        println(bits(diff_positions))
-        println(n_diffs)
         if n_diffs == 1
-            println(x, " --> ", y, ": A single mutation occurs!")
-            println(code[x], " --> ", code[y])
             DS, DN = classify_mutation(x, y, code, weighting(T, ONEPATH))
             # One site in the two codons is different. It is obvious and simple
             # then to count whether it is a synonymous or nonsynonymous mutation.
         elseif n_diffs == 2
             DS, DN = DS_DN_init(T)
-            println("2 changes, 2 possible pathways.")
             # For two changes, the number of synonymous and non-synonymous
             # differences per codon, sum to 2, there are two pathways,
             # each possible pathway having two steps.
@@ -59,8 +54,6 @@ function DS_DN_enumerator(::Type{T}, x::Codon, y::Codon, code::GeneticCode = DEF
             @inbounds for pos in 1:3
                 if ((diff_positions >> (3 - pos)) & 0x01) == 0x01
                     temp_cdn = splice_into(x, y, pos)
-                    println(x, " --> ", temp_cdn, " --> ", y)
-                    println(code[x], " --> ", code[temp_cdn], " --> ", code[y])
 
                     DS_a, DN_a = classify_mutation(x, temp_cdn, code, weighting(T, TWOPATHS))
                     DS_b, DN_b = classify_mutation(temp_cdn, y, code, weighting(T, TWOPATHS))
@@ -73,7 +66,6 @@ function DS_DN_enumerator(::Type{T}, x::Codon, y::Codon, code::GeneticCode = DEF
             end
         elseif n_diffs == 3
             DS, DN = DS_DN_init(T)
-            println("Six possible pathways, each with three steps.")
             # For two changes, there are 6 pathways, each with three steps.
             # For example, comparing CTA and GAT, the possible pathways are:
             # 1: CTA (L) -> GTA (V) -> GAA (E) -> GAT (D) : 3 nonsynonymous changes.
@@ -85,8 +77,6 @@ function DS_DN_enumerator(::Type{T}, x::Codon, y::Codon, code::GeneticCode = DEF
             @inbounds for path in SITE_PERMUTATIONS
                 tmp_cdn_a = splice_into(x, y, path[1])
                 tmp_cdn_b = splice_into(tmp_cdn_a, y, path[2])
-                println(x, " --> ", tmp_cdn_a, " --> ", tmp_cdn_b, " --> ", y)
-                println(code[x], " --> ", code[tmp_cdn_a], " --> ", code[tmp_cdn_b], " --> ", code[y])
 
                 DS_a, DN_a = classify_mutation(x, tmp_cdn_a, code, weighting(T, THREEPATHS))
                 DS_b, DN_b = classify_mutation(tmp_cdn_a, tmp_cdn_b, code, weighting(T, THREEPATHS))
