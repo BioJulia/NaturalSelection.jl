@@ -60,8 +60,6 @@ function mst(codongraph::CodonGraph, state::MSTState)
     reset!(state)
     for (v1, v2, DS_i, DN_i) in codongraph
         if find(v1, state) != find(v2, state)
-            println("Edge: ", v1, " --> ", v2, " added to tree.")
-            println("Edge DS cost: ", DS_i, ". Edge DN cost: ", DN_i)
             union(v1, v2, state)
             DS += DS_i
             DN += DN_i

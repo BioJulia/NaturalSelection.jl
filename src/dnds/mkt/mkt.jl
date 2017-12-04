@@ -79,9 +79,6 @@ function mkt(x::Vector{Vector{Codon{T}}},
         xset = CodonSet{T}(x, i)
         yset = CodonSet{T}(y, i)
 
-        println(collect(xset))
-        println(collect(yset))
-
         PS_i, PN_i = mkt_PSPN(xset, yset, graph, msts)
         DS_i, DN_i = div_count(xset, yset, ref)
 
