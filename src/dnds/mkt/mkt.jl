@@ -67,6 +67,12 @@ end
 
 mkt_α(PS, PN, DS, DN) = 1 - (DS * PN) / (DN * PS)
 
+
+"""
+    mkt(x, y, ref)
+
+Compute McDonald Kreitman statistics for two sets of codons.
+"""
 function mkt(x::Vector{Vector{Codon{T}}},
              y::Vector{Vector{Codon{T}}},
              ref::CodonGraphReference{Codon{T}} = DEFAULT_CODON_GRAPH_REFERENCE) where T <: NucleicAcid

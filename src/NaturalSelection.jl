@@ -43,9 +43,9 @@ const Codon{T} = BioSequences.Kmer{T, 3}
 @inline bitindex(x::Kmer{T,K}, i::Integer) where {T,K} = 2 * (K - i)
 
 include("codons/codon_set.jl")
-include("codons/DS_DN_enumerator.jl")
-include("codons/allpaths.jl")
-include("codons/shortestpath.jl")
+include("codons/DS_DN_counting/enumerator.jl")
+include("codons/DS_DN_counting/allpaths.jl")
+include("codons/DS_DN_counting/shortestpath.jl")
 
 include("dnds/dnds.jl")
 include("tajima.jl")
