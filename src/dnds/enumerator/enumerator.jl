@@ -40,10 +40,10 @@ end
 This generic, parametric algorithm takes two codons, and computes the number of
 synonymous and non-synonymous mutations between them.
 
-The exact behaviour of the algorithm can be adjusted by providing different
+The exact behaviour of the algorithm can be adjusted by defining different
 types of T <: DS_DN_Counter.
 
-Providing different counter types allows one to change how different types of
+Different counter types allows one to change how different types of
 mutations are weighted, and how the results are accumulated.
 
 For example, in this package there are currently two DS_DN_Counter types.
