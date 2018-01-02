@@ -107,4 +107,3 @@ end
 end
 
 const DEFAULT_CODON_GRAPH_REFERENCE = CodonGraphReference{Codon{DNA}}(DEFAULT_TRANS)
-const DEFAULT_CODON_DN_DS_REFERENCE = make_edge_reference()
