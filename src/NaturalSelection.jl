@@ -28,7 +28,8 @@ import BioSequences:
     Kmer,
     NucAlphs,
     GeneticCode,
-    ispurine
+    ispurine,
+    @kmer
 
 import GeneticVariation:
     NL79,
