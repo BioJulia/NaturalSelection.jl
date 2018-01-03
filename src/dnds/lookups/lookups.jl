@@ -33,13 +33,14 @@ end
 function setuplookup!(tbl::CodonLookupTable{2, T}, f::Function) where T
     info("Setting up 2d lookup")
     ci = kmer"AAA"
-    while ci <= kmer"TTT"
+    while ci < kmer"TTT"
         cj = ci + 1
-        @inbounds while cj <= kmer"TTT"
+        @inbounds while cj < kmer"TTT"
             info("$ci and $cj")
             tbl[ci, cj] = f(ci, cj)
             cj += 1
         end
+        tbl[ci, cj] = f(ci, cj)
         ci += 1
     end
 end
