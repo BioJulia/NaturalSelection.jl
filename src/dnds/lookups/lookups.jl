@@ -20,18 +20,22 @@ end
 include("indexing.jl")
 
 function setuplookup!(tbl::CodonLookupTable{1, T}, f::Function) where T
+    info("Setting up 1d lookup")
     cdn = kmer"AAA"
     @inbounds while cdn <= kmer"TTT"
+        info(cdn)
         tbl[cdn] = f(cdn)
         cdn += 1
     end
 end
 
 function setuplookup!(tbl::CodonLookupTable{2, T}, f::Function) where T
+    info("Setting up 2d lookup")
     ci = kmer"AAA"
     while ci <= kmer"TTT"
         cj = ci + 1
         @inbounds while cj <= kmer"TTT"
+            info("$ci and $cj")
             tbl[ci, cj] = f(ci, cj)
             cj += 1
         end
