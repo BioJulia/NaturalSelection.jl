@@ -2,12 +2,25 @@
 include("computation.jl")
 include("lookups.jl")
 
-@inline function d_(p::Float64)
-    return - 3 / 4 * log(1 - 4.0 / 3 * p)
+
+
+function dNdS_NG86(x, y, addone::Bool = true)
+    return dNdS_NG86(x, y, addone, DEFAULT_S_N_NG86_LOOKUP, DEFAULT_DS_DN_NG86_LOOKUP)
+end
+
+function dNdS_NG86(x, y, addone::Bool = true, k::Float64)
+    snlookup = make_S_N_NG86_table(DEFAULT_TRANS, k)
+    return dNdS_NG86(x, y, addone, snlookup, DEFAULT_DS_DN_NG86_LOOKUP)
+end
+
+function dNdS_NG86(x, y, addone::Bool = true, code::GeneticCode)
+    snlookup = make_S_N_NG86_table(code, 1.0)
+    dsdnlookup = make_DS_DN_NG86_table(code)
+    return dNdS_NG86(x, y, addone, snlookup, dsdnlookup)
 end
 
 """
-    dNdS_NG86(x, y, k::Float64 = 1.0, code::GeneticCode)
+    dNdS_NG86(x, y, addone::Bool = true, k::Float64 = 1.0, code::GeneticCode)
 
 Compute dN and dS, using the [Nei and Gojobori 1986](https://www.ncbi.nlm.nih.gov/pubmed/3444411) method.
 
@@ -15,6 +28,13 @@ This function requires two iterables `x` and `y`, which yield `Codon{DNA}` or
 `Codon{RNA}` type variables. These two types are defined in the BioSequences
 package.
 """
+function dNdS_NG86(x, y, addone::Bool = true, k::Float64, code::GeneticCode)
+    snlookup = make_S_N_NG86_table(code, k)
+    dsdnlookup = make_DS_DN_NG86_table(code)
+    return dNdS_NG86(x, y, addone, dnlookup, dsdnlookup)
+end
+
+
 function dNdS_NG86(x, y, k::Float64 = 1.0, code::GeneticCode = DEFAULT_TRANS, addone::Bool = false)
     return _dNdS_NG86(x, y, k, code, addone, eltype(x), eltype(y))
 end

@@ -16,7 +16,7 @@ Returns a tuple where S is the first element and N is the second (S, N).
 
 Each site in a codon may be both partially synonymous and non-synonymous.
 """
-function S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: Codon}
+function S_N_NG86(codon::C, code::GeneticCode) where {C <: Codon}
     cdn_bits = UInt64(codon)
     aa = code[codon]
     S = N = 0.0
@@ -28,20 +28,15 @@ function S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: Codon}
             if codon == neighbor # Codon created is not a neighbor: should happen 3 times.
                 continue
             end
-            # See if the mutation is transition or transversion.
-            cdn_purine = ispurine(codon[pos])
-            neighbor_purine = ispurine(neighbor[pos])
-            istransition = (cdn_purine && neighbor_purine) || (!cdn_purine && !neighbor_purine)
             # See if the protein changes between codon and neighbor, and update
             # N and S counts accordingly.
-            inc = ifelse(istransition, 1.0, k)
             neighbor_aa = code[neighbor]
             if neighbor_aa == BioSequences.AA_Term
-                N += inc
+                N += 1.0
             elseif neighbor_aa == aa
-                S += inc
+                S += 1.0
             else
-                N += inc
+                N += 1.0
             end
         end
     end
@@ -59,33 +54,26 @@ function DS_DN_NG86(x::C, y::C, code::GeneticCode) where C <: Codon
     return DS_DN_enumerator(AllPaths, x, y, code)
 end
 
+@inline function d_(p::Float64)
+    return - 3 / 4 * log(1 - 4.0 / 3 * p)
+end
 
+function dNdS_NG86_kernel(x, y,
+    S::Float64, N::Float64,
+    DS::Float64, DN::Float64,
+    snlookup::SN_NG86_LOOKUP, dsdnlookup::DSDN_NG86_LOOKUP)
 
-
-
-
-
-
-
-
-
-
-function _dNdS_NG86(x, y, k::Float64, code::GeneticCode, addone::Bool, xtype::Type{C}, ytype::Type{C}) where C <: Codon
-    # Expected no. of syn and nonsyn sites.
-    S = N = 0.0
-    # Observed no. of syn and nonsyn mutations.
-    DS = ifelse(addone, 1.0, 0.0)
-    DN = 0.0
     # Iterate over every pair of codons.
     @inbounds for (i, j) in zip(x, y)
-        si, ni = S_N_NG86(i, k, code)
-        sj, nj = S_N_NG86(j, k, code)
+        si, ni = snlookup[i]
+        sj, nj = snlookup[j]
         S += (si + sj)
         N += (ni + nj)
-        DSi, DNi = DS_DN_NG86(i, j, code)
+        DSi, DNi = dsdnlookup[i, j]
         DS += DSi
         DN += DNi
     end
+
     S = S / 2.0
     N = N / 2.0
     pN = DN / N
@@ -93,4 +81,37 @@ function _dNdS_NG86(x, y, k::Float64, code::GeneticCode, addone::Bool, xtype::Ty
     dN = d_(pN)
     dS = d_(pS)
     return dN, dS
+end
+
+function _dNdS_NG86(x, y, addone::Bool, snlookup::SN_NG86_LOOKUP, dsdnlookup::DSDN_NG86_LOOKUP, ::Type{C}, ::Type{C}) where C <: Codon
+    # Expected no. of syn and nonsyn sites.
+    S = N = 0.0
+    # Observed no. of syn and nonsyn mutations.
+    DS = ifelse(addone, 1.0, 0.0)
+    DN = 0.0
+    return dNdS_NG86_kernel(x, y, S, N, DS, DN, snlookup, dndslookup)
+end
+
+function dNdS_NG86(x, y, addone::Bool, snlookup::SN_NG86_LOOKUP, dsdnlookup::DSDN_NG86_LOOKUP)
+    return _dNdS_NG86(x, y, addone, snlookup, dsdnlookup, eltype(x), eltype(y))
+end
+
+function dNdS_NG86(x, y, addone::Bool = true)
+    return dNdS_NG86(x, y, addone, DEFAULT_S_N_NG86_LOOKUP, DEFAULT_DS_DN_NG86_LOOKUP)
+end
+
+function dNdS_NG86(x::S, y::S, addone::Bool = true) where S <: BioSequence{<:NucAlphs}
+    xcdns, ycdns = aligned_codons(x, y)
+    return dNdS_NG86(xcdns, ycdns, addone, DEFAULT_S_N_NG86_LOOKUP, DEFAULT_DS_DN_NG86_LOOKUP)
+end
+
+function dNdS_NG86(x, y, addone::Bool = true, code::GeneticCode)
+    snlookup = make_S_N_NG86_table(code, 1.0)
+    dsdnlookup = make_DS_DN_NG86_table(code)
+    return dNdS_NG86(x, y, addone, snlookup, dsdnlookup)
+end
+
+function dNdS_NG86(x::S, y::S, addone::Bool = true, code::GeneticCode) where S <: BioSequence{<:NucAlphs}
+    xcdns, ycdns = aligned_codons(x, y)
+    return dNdS_NG86(xcdns, ycdns, addone, k, code)
 end

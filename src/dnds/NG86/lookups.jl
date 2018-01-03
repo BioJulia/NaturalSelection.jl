@@ -1,7 +1,7 @@
 
-function make_S_N_NG86_table(code::GeneticCode, k::Float64 = 1.0)
+function make_S_N_NG86_table(code::GeneticCode)
     table = CodonLookupTable{1, Tuple{Float64, Float64}}()
-    f = i -> S_N_NG86(i, k, code)
+    f = i -> S_N_NG86(i, code)
     setuplookup!(table, f)
     return table
 end
@@ -14,5 +14,8 @@ function make_DS_DN_NG86_table(code::GeneticCode)
 end
 
 info("Compiling default lookup tables for NG86 dN dS...")
-const DEFAULT_S_N_NG86_LOOKUP = make_S_N_NG86_table(DEFAULT_TRANS, 1.0)
+const DEFAULT_S_N_NG86_LOOKUP = make_S_N_NG86_table(DEFAULT_TRANS)
 const DEFAULT_DS_DN_NG86_LOOKUP = make_DS_DN_NG86_table(DEFAULT_TRANS)
+
+const SN_NG86_LOOKUP = CodonLookupTable{1, Tuple{Float64, Float64}}
+const DSDN_NG86_LOOKUP = CodonLookupTable{2, Tuple{Float64, Float64}}
