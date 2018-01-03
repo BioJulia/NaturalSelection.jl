@@ -6,7 +6,6 @@
 # This file is a part of BioJulia.
 # License is MIT: https://github.com/BioJulia/BioSequences.jl/blob/master/LICENSE.md
 
-include("refs_and_graphs/lookups.jl")
 include("refs_and_graphs/codon_graphs.jl")
 include("mst.jl")
 

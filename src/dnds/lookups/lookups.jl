@@ -27,6 +27,7 @@ function setuplookup!(tbl::CodonLookupTable{1, T}, f::Function) where T
         tbl[cdn] = f(cdn)
         cdn += 1
     end
+    info(cdn)
     tbl[cdn] = f(cdn)
 end
 
@@ -40,6 +41,7 @@ function setuplookup!(tbl::CodonLookupTable{2, T}, f::Function) where T
             tbl[ci, cj] = f(ci, cj)
             cj += 1
         end
+        info("$ci and $cj")
         tbl[ci, cj] = f(ci, cj)
         ci += 1
     end
