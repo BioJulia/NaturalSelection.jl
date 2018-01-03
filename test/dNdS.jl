@@ -46,6 +46,21 @@
             end
         end
 
+        @testset "lookups" begin
+            for i in UInt64(0):UInt64(63)
+                x = DNACodon(i)
+                @test S_N_NG86(x, 1.0, ncbi_trans_table[1]) == NaturalSelection.DEFAULT_S_N_NG86_LOOKUP[x]
+            end
+
+            for i in UInt64(0):UInt64(63)
+                for j in (i + 1):UInt64(63)
+                    a = DNACodon(i)
+                    b = DNACodon(j)
+                    @test DS_DN_NG86(a, b, ncbi_trans_table[1]) == NaturalSelection.DEFAULT_DS_DN_NG86_LOOKUP[a, b]
+                end
+            end
+        end
+
         @testset "dN/dS" begin
             @test dNdS_NG86(codonsA, codonsB)[1] ≈ 0.125 atol=0.001
             @test dNdS_NG86(codonsA, codonsB)[2] ≈ 0.974 atol=0.001
