@@ -49,14 +49,16 @@
         @testset "lookups" begin
             for i in UInt64(0):UInt64(63)
                 x = DNACodon(i)
-                @test S_N_NG86(x, 1.0, ncbi_trans_table[1]) == NaturalSelection.DEFAULT_S_N_NG86_LOOKUP[x]
+                @test S_N_NG86(x, 1.0, ncbi_trans_table[1])[1] == NaturalSelection.DEFAULT_S_N_NG86_LOOKUP[x][1]
+                @test S_N_NG86(x, 1.0, ncbi_trans_table[1])[2] == NaturalSelection.DEFAULT_S_N_NG86_LOOKUP[x][2]
             end
 
             for i in UInt64(0):UInt64(63)
                 for j in (i + 1):UInt64(63)
                     a = DNACodon(i)
                     b = DNACodon(j)
-                    @test DS_DN_NG86(a, b, ncbi_trans_table[1]) == NaturalSelection.DEFAULT_DS_DN_NG86_LOOKUP[a, b]
+                    @test DS_DN_NG86(a, b, ncbi_trans_table[1])[1] == NaturalSelection.DEFAULT_DS_DN_NG86_LOOKUP[a, b][1]
+                    @test DS_DN_NG86(a, b, ncbi_trans_table[1])[2] == NaturalSelection.DEFAULT_DS_DN_NG86_LOOKUP[a, b][2]
                 end
             end
         end
