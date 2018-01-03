@@ -42,7 +42,7 @@ end
 # Indexing into both 1 and 2 dimensional lookup tables with a single integer index.
 @inline function Base.getindex(table::CodonLookupTable{N, T}, i::Integer) where {N, T}
     @boundscheck checkbounds(table, i)
-    @inbounds return x.table[i]
+    @inbounds return table.table[i]
 end
 
 # Indexing into a 1-dimensional lookup table with a single codon.
