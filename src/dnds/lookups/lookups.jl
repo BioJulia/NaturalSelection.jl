@@ -33,7 +33,9 @@ function setuplookup!(tbl::CodonLookupTable{2, T}, f::Function) where T
         cj = ci + 1
         @inbounds while cj <= kmer"TTT"
             tbl[ci, cj] = f(ci, cj)
+            cj += 1
         end
+        ci += 1
     end
 end
 
