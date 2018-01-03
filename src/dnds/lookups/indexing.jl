@@ -56,12 +56,12 @@ end
 # ------------------
 
 # Setting an element in both 1 and 2 dimensional lookup tables with a single index.
-@inline function Base.setindex!(table::CodonLookupTable{N, T}, i::Integer, x::T) where {N, T}
+@inline function Base.setindex!(table::CodonLookupTable{N, T}, x::T, i::Integer) where {N, T}
     @boundscheck checkbounds(table, i)
     @inbounds table.table[i] = x
 end
 
-@inline function Base.setindex!(table::CodonLookupTable{1, T}, i::C, x::T) where {C <: Codon, T}
+@inline function Base.setindex!(table::CodonLookupTable{1, T}, x::T, i::C) where {C <: Codon, T}
     # Do an unsafe indexing assuming inbounds, because you shouldn't ever have a
     # codon that is convertable to an out of bounds index.
     @inbounds table[UInt64(i) + 1] = x
@@ -89,13 +89,13 @@ end
 # setindex overloads
 # ------------------
 
-@inline function Base.setindex!(table::CodonLookupTable{2, T}, i::Integer, j::Integer, x::T) where T
+@inline function Base.setindex!(table::CodonLookupTable{2, T}, x::T, i::Integer, j::Integer) where T
     k = ij_to_k(i, j)
     @boundscheck checkbounds(table, k)
     @inbounds table.table[k] = x
 end
 
-@inline function Base.setindex!(table::CodonLookupTable{2, T}, i::C, j::C, x::T) where {C <: Codon,T}
+@inline function Base.setindex!(table::CodonLookupTable{2, T}, x::T, i::C, j::C) where {C <: Codon,T}
     # Do an unsafe indexing assuming inbounds, because you shouldn't ever have
     # codons that are convertable to an out of bounds index.
     @inbounds table[UInt64(i) + 1, UInt64(j) + 1] = x
