@@ -4,7 +4,7 @@ using Base.Test
 
 using BioSequences, NaturalSelection
 
-include("dNdS.jl")
+include("dNdS/dNdS.jl")
 include("tajima.jl")
 include("mkt.jl")
 
