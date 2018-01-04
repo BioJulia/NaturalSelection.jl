@@ -16,7 +16,7 @@ end
 isinteractive() && info("Compiling lookup tables for NG86...")
 const S_N_NG86_LOOKUPS = (function ()
     tables = Dict{GeneticCode, S_N_NG86_LOOKUP}()
-    for table in ncbi_trans_table.tables
+    for table in values(ncbi_trans_table.tables)
         tables[table] = make_S_N_NG86_table(table)
     end
     return tables
@@ -24,7 +24,7 @@ end)()
 
 const DS_DN_NG86_LOOKUPS = (function ()
     tables = Dict{GeneticCode, DS_DN_NG86_LOOKUP}()
-    for table in ncbi_trans_table.tables
+    for table in values(ncbi_trans_table.tables)
         tables[table] = make_DS_DN_NG86_table(table)
     end
     return tables
