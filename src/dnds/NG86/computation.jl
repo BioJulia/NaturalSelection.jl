@@ -63,15 +63,23 @@ function dNdS_NG86_kernel(x, y,
     DS::Float64, DN::Float64,
     snlookup::S_N_NG86_LOOKUP, dsdnlookup::DS_DN_NG86_LOOKUP)
 
+    info("snlookup is: ", snlookup)
+    info("dsdnlookup is: ", dsdnlookup)
+
     # Iterate over every pair of codons.
     @inbounds for (i, j) in zip(x, y)
+        info("i and j are: ", i, ", ", j)
         si, ni = snlookup[i]
         sj, nj = snlookup[j]
+        info("si, ni, sj, nj are: ", si, ", ", ni, ", ", sj, ", ", nj)
         S += (si + sj)
         N += (ni + nj)
+        info("S and N are: ", S, ", ", N)
         DSi, DNi = dsdnlookup[i, j]
+        info("DSi & DNi are: ", DSi, ", ", DNi)
         DS += DSi
         DN += DNi
+        info("DS and DN are: ", DS, ", ", DN)
     end
 
     S = S / 2.0
