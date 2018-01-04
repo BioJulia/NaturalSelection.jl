@@ -84,8 +84,11 @@ function dNdS_NG86_kernel(x, y,
 
     S = S / 2.0
     N = N / 2.0
+    info("S and N are now: ", S, ", ", N)
+    info("DS and DN are now: ", DS, ", ", DN)
     pN = DN / N
     pS = DS / S
+    info("pS and pN are now:", pS, ", ", pN)
     dN = d_(pN)
     dS = d_(pS)
     return dN, dS
