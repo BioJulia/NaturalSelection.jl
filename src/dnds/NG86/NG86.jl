@@ -23,7 +23,7 @@ and `y` iterables that conform to the behaviour of DNA or RNA sequences as
 defined in the BioSequences package. In this case, a new `x` and `y` that do
 have an element type of `Codon{DNA}` or `Codon{RNA}`.
 """
-function dNdS_NG86(x, y; addone::Bool = true, code::GeneticCode = BioSequences.standard_genetic_code)
+function dNdS_NG86(x, y; addone::Bool = true, code::GeneticCode = standard_genetic_code)
     snlookup = get(S_N_NG86_LOOKUPS, make_S_N_NG86_table(code))
     dsdnlookup = get(DS_DN_NG86_LOOKUPS, make_DS_DN_NG86_table(code))
     return dNdS_NG86(x, y, addone, snlookup, dsdnlookup)
@@ -46,7 +46,7 @@ function pairwise_dNdS_NG86(x, addone::Bool = true, snlookup::SN_NG86_LOOKUP, ds
     return results
 end
 
-function pairwise_dNdS_NG86(x; addone::Bool = true, code::GeneticCode = BioSequences.standard_genetic_code)
+function pairwise_dNdS_NG86(x; addone::Bool = true, code::GeneticCode = standard_genetic_code)
     snlookup = get(S_N_NG86_LOOKUPS, make_S_N_NG86_table(code))
     dsdnlookup = get(DS_DN_NG86_LOOKUPS, make_DS_DN_NG86_table(code))
     return pairwise_dNdS_NG86(x, addone, snlookup, dsdnlookup)

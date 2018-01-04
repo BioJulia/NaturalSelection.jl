@@ -29,7 +29,9 @@ import BioSequences:
     NucAlphs,
     GeneticCode,
     ispurine,
-    @kmer_str
+    @kmer_str,
+    ncbi_trans_table,
+    standard_genetic_code
 
 import GeneticVariation:
     NL79,
