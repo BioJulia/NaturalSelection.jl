@@ -1,6 +1,6 @@
 
-const S_N_NG86_LOOKUP = CodonLookupTable{1, Tuple{Float64, Float64}}
-const DS_DN_NG86_LOOKUP = CodonLookupTable{2, Tuple{Float64, Float64}}
+const S_N_NG86_LOOKUP = SingleCodonLookup{Tuple{Float64, Float64}}
+const DS_DN_NG86_LOOKUP = PairwiseCodonLookup{Tuple{Float64, Float64}}
 
 include("computation.jl")
 include("lookups.jl")

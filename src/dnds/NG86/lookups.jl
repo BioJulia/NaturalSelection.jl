@@ -1,16 +1,12 @@
 
 function make_S_N_NG86_table(code::GeneticCode)
-    table = CodonLookupTable{1, Tuple{Float64, Float64}}()
     f = i -> S_N_NG86(i, code)
-    setuplookup!(table, f)
-    return table
+    return S_N_NG86_LOOKUP(f)
 end
 
 function make_DS_DN_NG86_table(code::GeneticCode)
-    table = CodonLookupTable{2, Tuple{Float64, Float64}}()
     f = (i, j) -> DS_DN_NG86(i, j, code)
-    setuplookup!(table, f)
-    return table
+    return DS_DN_NG86_LOOKUP(f)
 end
 
 isinteractive() && info("Compiling lookup tables for NG86...")

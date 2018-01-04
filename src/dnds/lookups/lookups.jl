@@ -1,45 +1,58 @@
 
-# This is an internal type to abstract codon lookup tables for various dN/dS
-# related operations. It has many similarities with the PairwiseListMatrix type
-# from the PairwiseListMatrices.jl package, but it does not support the storage
-# of diagonal values and many normal matrix operations, as it is simply used for
-# lookup of precomputed values, and not for any other purpose.
-
-struct CodonLookupTable{N, T}
-    table::Vector{T}
+struct CodonLookupTable{T}
+    table::T
 end
 
-function CodonLookupTable{1, T}() where T
-    return CodonLookupTable{1, T}(Vector{T}(64))
-end
+const SingleCodonLookup{T} = CodonLookupTable{Vector{T}}
+const PairwiseCodonLookup{T} = CodonLookupTable{PairwiseListMatrix{T, false, Vector{T}}}
 
-function CodonLookupTable{2, T}() where T
-    return CodonLookupTable{2, T}(Vector{T}(2016))
-end
-
-include("indexing.jl")
-
-function setuplookup!(tbl::CodonLookupTable{1, T}, f::Function) where T
+function SingleCodonLookup{T}(f::Function) where T
+    v = SingleCodonLookup{T}(Vector{T}(64))
     cdn = kmer"AAA"
     @inbounds while cdn < kmer"TTT"
-        tbl[cdn] = f(cdn)
+        v[cdn] = f(cdn)
         cdn += 1
     end
-    tbl[cdn] = f(cdn)
+    v[cdn] = f(cdn)
+    return v
 end
 
-function setuplookup!(tbl::CodonLookupTable{2, T}, f::Function) where T
+function PairwiseCodonLookup{T}(f::Function) where T
+    v = PairwiseCodonLookup{T}(PairwiseListMatrix(Vector{T}(2016), false, (0.0, 0.0)))
     ci = kmer"AAA"
     while ci < kmer"TTT"
-        cj = ci + 1
+        cj = ci
         @inbounds while cj < kmer"TTT"
-            tbl[ci, cj] = f(ci, cj)
+            v[ci, cj] = f(ci, cj)
             cj += 1
         end
-        tbl[ci, cj] = f(ci, cj)
+        v[ci, cj] = f(ci, cj)
         ci += 1
     end
+    return v
 end
+
+@inline function Base.getindex(tbl::SingleCodonLookup, cdn::C) where C <: Codon
+    return tbl.table[UInt64(cdn) + 1]
+end
+@inline function Base.setindex!(tbl::SingleCodonLookup{T}, val::T, cdn::C) where {C <: Codon, T}
+    return tbl.table[UInt64(cdn) + 1] = val
+end
+
+@inline function Base.getindex(tbl::PairwiseCodonLookup, i::C, j::C) where C <: Codon
+    return tbl.table[UInt64(i) + 1, UInt64(j) + 1]
+end
+@inline function Base.setindex!(tbl::PairwiseCodonLookup{T}, val::T, i::C, j::C) where {C <: Codon, T}
+    return tbl.table[UInt64(i) + 1, UInt64(j) + 1] = val
+end
+
+
+
+
+
+
+
+
 
 ## To Sort out!
 
@@ -84,11 +97,16 @@ function CodonGraphReference{C}(code::GeneticCode) where C <: Codon
     return CodonGraphReference{C}(edgetable, edgetable_perm, edgetable_order)
 end
 
+@inline function ij_to_k(i::Integer, j::Integer)
+    i, j = ifelse(i > j, (j, i), (i, j))
+    nelements = 64
+    x = nelements - i
+    return div(nelements * (nelements - 1) - (x * (x - 1)), 2) - nelements + j
+end
 
-
-
-
-
+@inline function codons_to_k(i::T, j::T) where T <: Codon
+    return ij_to_k(UInt64(i) + 1, UInt64(j) + 1)
+end
 
 @inline function lookup_edge(table::CodonGraphReference{T}, i::T, j::T) where T <: Codon
     @inbounds return table.edges[codons_to_k(i, j)]
