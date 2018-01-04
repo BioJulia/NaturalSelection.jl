@@ -4,7 +4,7 @@ struct CodonLookupTable{T}
 end
 
 const SingleCodonLookup{T} = CodonLookupTable{Vector{T}}
-const PairwiseCodonLookup{T} = CodonLookupTable{PairwiseListMatrix{T, false, Vector{T}}}
+const PairwiseCodonLookup{T} = CodonLookupTable{PairwiseListMatrix{T, true, Vector{T}}}
 
 function SingleCodonLookup{T}(f::Function) where T
     v = SingleCodonLookup{T}(Vector{T}(64))
@@ -18,7 +18,7 @@ function SingleCodonLookup{T}(f::Function) where T
 end
 
 function PairwiseCodonLookup{T}(f::Function) where T
-    v = PairwiseCodonLookup{T}(PairwiseListMatrix(Vector{T}(2016), false, (0.0, 0.0)))
+    v = PairwiseCodonLookup{T}(PairwiseListMatrix(Vector{T}(2080), true))
     ci = kmer"AAA"
     while ci < kmer"TTT"
         cj = ci
