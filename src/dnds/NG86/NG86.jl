@@ -6,14 +6,12 @@ include("computation.jl")
 include("lookups.jl")
 
 """
-    dNdS_NG86(x, y, addone::Bool = true, code::GeneticCode = BioSequences.standard_genetic_code)
+    dNdS_NG86(x, y, addone::Bool = true, code::Int = 1)
 
 Compute dN and dS, using the [Nei and Gojobori 1986](https://www.ncbi.nlm.nih.gov/pubmed/3444411) method.
 
-If the genetic code is one of those defined in `ncbi_trans_table` then
-the correct D, N, DS, and DN lookup tables for NG86 will be used, and if it is
-a unique user defined genetic code then D, N, DS, and DN lookup tables will be
-generated.
+The genetic code that is used, is defined according to the numbering of
+`ncbi_trans_table`. Code 1 is the standard genetic code.
 
 This function requires two iterables `x` and `y`.
 If these iterables yield `Codon{DNA}` or `Codon{RNA}` type variables. Then it is
@@ -23,19 +21,17 @@ and `y` iterables that conform to the behaviour of DNA or RNA sequences as
 defined in the BioSequences package. In this case, a new `x` and `y` that do
 have an element type of `Codon{DNA}` or `Codon{RNA}`.
 """
-function dNdS_NG86(x, y; addone::Bool = true, code::GeneticCode = standard_genetic_code)
-    snlookup = get(S_N_NG86_LOOKUPS, make_S_N_NG86_table(code))
-    dsdnlookup = get(DS_DN_NG86_LOOKUPS, make_DS_DN_NG86_table(code))
-    return dNdS_NG86(x, y, addone, snlookup, dsdnlookup)
-end
-
-function dNdS_NG86(x, y, addone::Bool = true, snlookup::SN_NG86_LOOKUP, dsdnlookup::DSDN_NG86_LOOKUP)
+function dNdS_NG86(x, y; addone::Bool = true, code::Int = 1)
+    snlookup = S_N_NG86_LOOKUPS[code]
+    dsdnlookup = DS_DN_NG86_LOOKUPS[code]
     return _dNdS_NG86(x, y, addone, snlookup, dsdnlookup, eltype(x), eltype(y))
 end
 
-function pairwise_dNdS_NG86(x, addone::Bool = true, snlookup::SN_NG86_LOOKUP, dsdnlookup::DSDN_NG86_LOOKUP)
+function pairwise_dNdS_NG86(x, addone::Bool = true, code::Int = 1)
     n = length(x)
     @assert n >= 2 "At least two sequences are required."
+    snlookup = S_N_NG86_LOOKUPS[code]
+    dsdnlookup = DS_DN_NG86_LOOKUPS[code]
     results = Matrix{Tuple{Float64, Float64}}(n, n)
     for i in 1:n
         results[i,i] = 0.0, 0.0
@@ -44,10 +40,4 @@ function pairwise_dNdS_NG86(x, addone::Bool = true, snlookup::SN_NG86_LOOKUP, ds
         end
     end
     return results
-end
-
-function pairwise_dNdS_NG86(x; addone::Bool = true, code::GeneticCode = standard_genetic_code)
-    snlookup = get(S_N_NG86_LOOKUPS, make_S_N_NG86_table(code))
-    dsdnlookup = get(DS_DN_NG86_LOOKUPS, make_DS_DN_NG86_table(code))
-    return pairwise_dNdS_NG86(x, addone, snlookup, dsdnlookup)
 end
