@@ -19,7 +19,7 @@ Each site in a codon may be both partially synonymous and non-synonymous.
 function S_N_NG86(codon::C, code::GeneticCode) where {C <: Codon}
     cdn_bits = UInt64(codon)
     aa = code[codon]
-    S = N = 0.0
+    S = N = 0
     for (pos, msk) in enumerate(CDN_POS_MASKS)
         bidx = bitindex(codon, pos)
         @inbounds for base in 0:3
@@ -32,11 +32,11 @@ function S_N_NG86(codon::C, code::GeneticCode) where {C <: Codon}
             # N and S counts accordingly.
             neighbor_aa = code[neighbor]
             if neighbor_aa == BioSequences.AA_Term
-                N += 1.0
+                N += 1
             elseif neighbor_aa == aa
-                S += 1.0
+                S += 1
             else
-                N += 1.0
+                N += 1
             end
         end
     end
