@@ -75,7 +75,9 @@ end
 # ------------------
 
 @inline function Base.getindex(table::CodonLookupTable{2, T}, i::Integer, j::Integer) where T
+    info("Indexing DS DN lookup with integers: ", UInt64(i) + 1, " & ", UInt64(j) + 1)
     k = ij_to_k(i, j)
+    info("k index is: ", k)
     @boundscheck checkbounds(table, k)
     @inbounds return table.table[k]
 end
@@ -83,6 +85,7 @@ end
 @inline function Base.getindex(table::CodonLookupTable{2, T}, i::C, j::C) where {C <: Codon, T}
     # Do an unsafe indexing assuming inbounds, because you shouldn't ever have
     # codons that are convertable to an out of bounds index.
+    info("Indexing DS DN lookup with codons: ", i, " & ", j)
     @inbounds return table[UInt64(i) + 1, UInt64(j) + 1]
 end
 
