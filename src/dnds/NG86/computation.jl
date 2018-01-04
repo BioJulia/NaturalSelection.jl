@@ -61,7 +61,7 @@ end
 function dNdS_NG86_kernel(x, y,
     S::Float64, N::Float64,
     DS::Float64, DN::Float64,
-    snlookup::SN_NG86_LOOKUP, dsdnlookup::DSDN_NG86_LOOKUP)
+    snlookup::S_N_NG86_LOOKUP, dsdnlookup::DS_DN_NG86_LOOKUP)
 
     # Iterate over every pair of codons.
     @inbounds for (i, j) in zip(x, y)
@@ -83,7 +83,7 @@ function dNdS_NG86_kernel(x, y,
     return dN, dS
 end
 
-function _dNdS_NG86(x, y, addone::Bool, snlookup::SN_NG86_LOOKUP, dsdnlookup::DSDN_NG86_LOOKUP, ::Type{C}, ::Type{C}) where C <: Codon
+function _dNdS_NG86(x, y, addone::Bool, snlookup::S_N_NG86_LOOKUP, dsdnlookup::DS_DN_NG86_LOOKUP, ::Type{C}, ::Type{C}) where C <: Codon
     # Expected no. of syn and nonsyn sites.
     S = N = 0.0
     # Observed no. of syn and nonsyn mutations.
@@ -92,26 +92,7 @@ function _dNdS_NG86(x, y, addone::Bool, snlookup::SN_NG86_LOOKUP, dsdnlookup::DS
     return dNdS_NG86_kernel(x, y, S, N, DS, DN, snlookup, dndslookup)
 end
 
-function dNdS_NG86(x, y, addone::Bool, snlookup::SN_NG86_LOOKUP, dsdnlookup::DSDN_NG86_LOOKUP)
-    return _dNdS_NG86(x, y, addone, snlookup, dsdnlookup, eltype(x), eltype(y))
-end
-
-function dNdS_NG86(x, y, addone::Bool = true)
-    return dNdS_NG86(x, y, addone, DEFAULT_S_N_NG86_LOOKUP, DEFAULT_DS_DN_NG86_LOOKUP)
-end
-
-function dNdS_NG86(x::S, y::S, addone::Bool = true) where S <: BioSequence{<:NucAlphs}
+function _dNdS_NG86(x, y, addone::Bool, snlookup::S_N_NG86_LOOKUP, dsdnlookup::DS_DN_NG86_LOOKUP, ::Type{N}, ::Type{N}) where N <: NucleicAcid
     xcdns, ycdns = aligned_codons(x, y)
-    return dNdS_NG86(xcdns, ycdns, addone, DEFAULT_S_N_NG86_LOOKUP, DEFAULT_DS_DN_NG86_LOOKUP)
-end
-
-function dNdS_NG86(x, y, addone::Bool = true, code::GeneticCode)
-    snlookup = make_S_N_NG86_table(code, 1.0)
-    dsdnlookup = make_DS_DN_NG86_table(code)
-    return dNdS_NG86(x, y, addone, snlookup, dsdnlookup)
-end
-
-function dNdS_NG86(x::S, y::S, addone::Bool = true, code::GeneticCode) where S <: BioSequence{<:NucAlphs}
-    xcdns, ycdns = aligned_codons(x, y)
-    return dNdS_NG86(xcdns, ycdns, addone, k, code)
+    _dNdS_NG86(x, y, addone, snlookup, dsdnlookup, eltype(xcdns), eltype(ycdns))
 end

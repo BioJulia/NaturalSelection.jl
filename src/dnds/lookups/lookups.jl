@@ -41,10 +41,6 @@ function setuplookup!(tbl::CodonLookupTable{2, T}, f::Function) where T
     end
 end
 
-
-
-
-
 ## To Sort out!
 
 function make_edge_reference(::Type{C}, code::GeneticCode) where C <: Codon
