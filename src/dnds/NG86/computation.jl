@@ -89,7 +89,7 @@ function _dNdS_NG86(x, y, addone::Bool, snlookup::S_N_NG86_LOOKUP, dsdnlookup::D
     # Observed no. of syn and nonsyn mutations.
     DS = ifelse(addone, 1.0, 0.0)
     DN = 0.0
-    return dNdS_NG86_kernel(x, y, S, N, DS, DN, snlookup, dndslookup)
+    return dNdS_NG86_kernel(x, y, S, N, DS, DN, snlookup, dsdnlookup)
 end
 
 function _dNdS_NG86(x, y, addone::Bool, snlookup::S_N_NG86_LOOKUP, dsdnlookup::DS_DN_NG86_LOOKUP, ::Type{N}, ::Type{N}) where N <: NucleicAcid
