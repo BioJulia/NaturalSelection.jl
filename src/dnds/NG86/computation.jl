@@ -7,7 +7,7 @@
 # License is MIT: https://github.com/BioJulia/NaturalSelection.jl/blob/master/LICENSE.md
 
 """
-    S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: CDN}
+    S_N_NG86(codon::C, code::GeneticCode) where {C <: CDN}
 
 Enumerate the number of synonymous (S) and non-synonymous (N) sites in a codon,
 using the method used by [Nei and Gojobori (1986)](https://www.ncbi.nlm.nih.gov/pubmed/3444411).
@@ -20,9 +20,10 @@ function S_N_NG86(codon::C, code::GeneticCode) where {C <: Codon}
     cdn_bits = UInt64(codon)
     aa = code[codon]
     S = N = 0
+    info("Codon: ", codon, ", AA: ", aa)
     for (pos, msk) in enumerate(CDN_POS_MASKS)
         bidx = bitindex(codon, pos)
-        @inbounds for base in 0:3
+        for base in 0:3
             # Create the neighbor codon.
             neighbor = C((cdn_bits & msk) | (base << bidx))
             if codon == neighbor # Codon created is not a neighbor: should happen 3 times.
@@ -31,16 +32,21 @@ function S_N_NG86(codon::C, code::GeneticCode) where {C <: Codon}
             # See if the protein changes between codon and neighbor, and update
             # N and S counts accordingly.
             neighbor_aa = code[neighbor]
+            info("Neighbour: ", neighbor, ", AA: ", neighbor_aa)
             if neighbor_aa == BioSequences.AA_Term
                 N += 1
             elseif neighbor_aa == aa
+                info("Substitution would be synonymous.")
                 S += 1
             else
+                info("Substitution would be non-synonymous.")
                 N += 1
             end
         end
     end
+    info("N & S: ", N, " & ", S)
     normalization = (N + S) / 3
+    info("Normalization = (N + S) / 3: ", N, " + ", S, " / 3 = ", normalization)
     return (S / normalization), (N / normalization)
 end
 
