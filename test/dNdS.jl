@@ -68,9 +68,12 @@
         end
 
         @testset "dN/dS" begin
-            @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[1] ≈ 0.125 atol=0.001
+            @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[1] ≈ 0.154 atol=0.001
             @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[2] ≈ 0.974 atol=0.001
         end
 
     end
 end
+
+for i, j in zip(a[:-1], b[:-1]):
+        SN = [m + n for m, n in zip(SN, _count_diff_NG86(i, j, codon_table=default_codon_table))]
