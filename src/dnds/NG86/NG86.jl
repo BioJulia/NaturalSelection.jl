@@ -21,13 +21,13 @@ and `y` iterables that conform to the behaviour of DNA or RNA sequences as
 defined in the BioSequences package. In this case, a new `x` and `y` that do
 have an element type of `Codon{DNA}` or `Codon{RNA}`.
 """
-function dNdS_NG86(x, y; addone::Bool = true, code::Int = 1)
+function dNdS_NG86(x, y; addone::Bool = false, code::Int = 1)
     snlookup = S_N_NG86_LOOKUPS[code]
     dsdnlookup = DS_DN_NG86_LOOKUPS[code]
     return _dNdS_NG86(x, y, addone, snlookup, dsdnlookup, eltype(x), eltype(y))
 end
 
-function pairwise_dNdS_NG86(x, addone::Bool = true, code::Int = 1)
+function pairwise_dNdS_NG86(x, addone::Bool = false, code::Int = 1)
     n = length(x)
     @assert n >= 2 "At least two sequences are required."
     snlookup = S_N_NG86_LOOKUPS[code]
