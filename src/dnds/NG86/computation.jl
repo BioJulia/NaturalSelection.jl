@@ -34,6 +34,7 @@ function S_N_NG86(codon::C, code::GeneticCode) where {C <: Codon}
             neighbor_aa = code[neighbor]
             info("Neighbour: ", neighbor, ", AA: ", neighbor_aa)
             if neighbor_aa == BioSequences.AA_Term
+                info("Substitution would be non-synonymous.")
                 N += 1
             elseif neighbor_aa == aa
                 info("Substitution would be synonymous.")
@@ -77,15 +78,13 @@ function dNdS_NG86_kernel(x, y,
         info("i and j are: ", i, ", ", j)
         si, ni = snlookup[i]
         sj, nj = snlookup[j]
-        info("si, ni, sj, nj are: ", si, ", ", ni, ", ", sj, ", ", nj)
+        info("Si, Ni, Sj, Nj are: ", si, ", ", ni, ", ", sj, ", ", nj)
         S += (si + sj)
         N += (ni + nj)
-        info("S and N are: ", S, ", ", N)
         DSi, DNi = dsdnlookup[i, j]
         info("DSi & DNi are: ", DSi, ", ", DNi)
         DS += DSi
         DN += DNi
-        info("DS and DN are: ", DS, ", ", DN)
     end
 
     S = S / 2.0

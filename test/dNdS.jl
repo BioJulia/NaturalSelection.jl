@@ -5,19 +5,20 @@
                    kmer"CCC",
                    kmer"GGG",
                    kmer"TTT",
-                   kmer"TAA",
-                   kmer"GGG"]
+                   kmer"GGG",
+                   kmer"TAA"]
 
         codonsB = [kmer"ATG",
                    kmer"AAA",
                    kmer"CGC",
                    kmer"GGC",
                    kmer"TAC",
-                   kmer"TAA",
-                   kmer"GGG"]
+                   kmer"GGG",
+                   kmer"TAA"]
 
         @testset "computation" begin
             @testset "expected" begin
+                all_codons = convert(Vector{Kmer{DNA,3}}, collect(UInt64(0):UInt64(63)))
                 n_ans = [3.0, 2.666, 2.0, 2.0, 2.666, 3.000, 2.0]
                 s_ans = [0.0, 0.333, 1.0, 1.0, 0.333, 0.000, 1.0]
                 for i in 1:endof(codonsA)
@@ -67,8 +68,8 @@
         end
 
         @testset "dN/dS" begin
-            @test dNdS_NG86(codonsA, codonsB)[1] ≈ 0.125 atol=0.001
-            @test dNdS_NG86(codonsA, codonsB)[2] ≈ 0.974 atol=0.001
+            @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[1] ≈ 0.125 atol=0.001
+            @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[2] ≈ 0.974 atol=0.001
         end
 
     end
