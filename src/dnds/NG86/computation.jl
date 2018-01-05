@@ -20,7 +20,6 @@ function S_N_NG86(codon::C, code::GeneticCode) where {C <: Codon}
     cdn_bits = UInt64(codon)
     aa = code[codon]
     S = N = 0
-    info("Codon: ", codon, ", AA: ", aa)
     for (pos, msk) in enumerate(CDN_POS_MASKS)
         bidx = bitindex(codon, pos)
         for base in 0:3
@@ -32,22 +31,16 @@ function S_N_NG86(codon::C, code::GeneticCode) where {C <: Codon}
             # See if the protein changes between codon and neighbor, and update
             # N and S counts accordingly.
             neighbor_aa = code[neighbor]
-            info("Neighbour: ", neighbor, ", AA: ", neighbor_aa)
             if neighbor_aa == BioSequences.AA_Term
-                info("Substitution would be non-synonymous.")
                 N += 1
             elseif neighbor_aa == aa
-                info("Substitution would be synonymous.")
                 S += 1
             else
-                info("Substitution would be non-synonymous.")
                 N += 1
             end
         end
     end
-    info("N & S: ", N, " & ", S)
     normalization = (N + S) / 3
-    info("Normalization = (N + S) / 3: ", N, " + ", S, " / 3 = ", normalization)
     return (S / normalization), (N / normalization)
 end
 
@@ -70,30 +63,21 @@ function dNdS_NG86_kernel(x, y,
     DS::Float64, DN::Float64,
     snlookup::S_N_NG86_LOOKUP, dsdnlookup::DS_DN_NG86_LOOKUP)
 
-    info("snlookup is: ", snlookup)
-    info("dsdnlookup is: ", dsdnlookup)
-
     # Iterate over every pair of codons.
     @inbounds for (i, j) in zip(x, y)
-        info("i and j are: ", i, ", ", j)
         si, ni = snlookup[i]
         sj, nj = snlookup[j]
-        info("Si, Ni, Sj, Nj are: ", si, ", ", ni, ", ", sj, ", ", nj)
         S += (si + sj)
         N += (ni + nj)
         DSi, DNi = dsdnlookup[i, j]
-        info("DSi & DNi are: ", DSi, ", ", DNi)
         DS += DSi
         DN += DNi
     end
 
     S = S / 2.0
     N = N / 2.0
-    info("S and N are now: ", S, ", ", N)
-    info("DS and DN are now: ", DS, ", ", DN)
     pN = DN / N
     pS = DS / S
-    info("pS and pN are now:", pS, ", ", pN)
     dN = d_(pN)
     dS = d_(pS)
     return dN, dS
