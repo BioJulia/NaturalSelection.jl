@@ -40,7 +40,7 @@ function pairwise_dNdS_NG86(x, addone::Bool = false, code::Int = 1)
     for i in 1:n
         results[i,i] = 0.0, 0.0
         for j in (i + 1):n
-            results[i,j] = results[j,i] = dNdS_NG86(x[i], x[j], addone, snlookup, dsdnlookup)
+            results[i,j] = results[j,i] = _dNdS_NG86(x[i], x[j], addone, snlookup, dsdnlookup, eltype(x[i]), eltype(x[j]))
         end
     end
     return results
