@@ -55,7 +55,11 @@ function DS_DN_NG86(x::C, y::C, code::GeneticCode) where C <: Codon
 end
 
 @inline function d_(p::Float64)
-    return - 3 / 4 * log(1 - 4.0 / 3 * p)
+    if p < 3 / 4
+        return - 3 / 4 * log(1 - 4.0 / 3 * p)
+    else
+        return -1.0
+    end
 end
 
 function dNdS_NG86_kernel(x, y,
