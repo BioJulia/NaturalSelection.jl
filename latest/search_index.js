@@ -61,7 +61,7 @@ var documenterSearchIndex = {"docs": [
     "page": "dNdS",
     "title": "NaturalSelection.dNdS_NG86",
     "category": "Function",
-    "text": "dNdS_NG86(x, y, k::Float64 = 1.0, code::GeneticCode)\n\nCompute dN and dS, using the Nei and Gojobori 1986 method.\n\nThis function requires two iterables x and y, which yield Codon{DNA} or Codon{RNA} type variables. These two types are defined in the BioSequences package.\n\n\n\ndNdS_NG86(x::BioSequence{A}, y::BioSequence{A}, k::Float64, code::GeneticCode) where {A <: NucAlphs}\n\nCompute dN and dS, using the Nei and Gojobori 1986 method.\n\nThis method adds conveinience when working with DNA or RNA sequences, by taking two sequences, and creating two vectors of aligned codons from them. These two iterables are then passed into the generic NG86 method.\n\n\n\n"
+    "text": "dNdS_NG86(x, y, addone::Bool = true, code::Int = 1)\n\nCompute dN and dS, using the Nei and Gojobori 1986 method.\n\nThe genetic code that is used, is defined according to the numbering of ncbi_trans_table. Code 1 is the standard genetic code.\n\nThis function requires two iterables x and y. If these iterables yield Codon{DNA} or Codon{RNA} type variables. Then it is assumed that x and y are iterables that yield a sequence of aligned codons. If the iterables produce DNA or RNA type variables, then it is assumed x and y iterables that conform to the behaviour of DNA or RNA sequences as defined in the BioSequences package. In this case, a new x and y that do have an element type of Codon{DNA} or Codon{RNA}.\n\nNG86 is a counting method of computing dN/dS and is typically safer to use on sequence data where codon usage, (esp. at 3rd position), is uniform, the sequences are not very divergent, and transition/transversion rates, are similar.\n\n\n\n"
 },
 
 {
@@ -69,7 +69,7 @@ var documenterSearchIndex = {"docs": [
     "page": "dNdS",
     "title": "NaturalSelection.S_N_NG86",
     "category": "Function",
-    "text": "S_N_NG86(codon::C, k::Float64, code::GeneticCode) where {C <: CDN}\n\nEnumerate the number of synonymous (S) and non-synonymous (N) sites in a codon, using the method used by Nei and Gojobori (1986).\n\nReturns a tuple where S is the first element and N is the second (S, N).\n\nEach site in a codon may be both partially synonymous and non-synonymous.\n\n\n\n"
+    "text": "S_N_NG86(codon::C, code::GeneticCode) where {C <: CDN}\n\nEnumerate the number of synonymous (S) and non-synonymous (N) sites in a codon, using the method used by Nei and Gojobori (1986).\n\nReturns a tuple where S is the first element and N is the second (S, N).\n\nEach site in a codon may be both partially synonymous and non-synonymous.\n\n\n\n"
 },
 
 {
