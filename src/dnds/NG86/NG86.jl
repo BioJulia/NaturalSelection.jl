@@ -20,6 +20,10 @@ If the iterables produce `DNA` or `RNA` type variables, then it is assumed `x`
 and `y` iterables that conform to the behaviour of DNA or RNA sequences as
 defined in the BioSequences package. In this case, a new `x` and `y` that do
 have an element type of `Codon{DNA}` or `Codon{RNA}`.
+
+NG86 is a counting method of computing dN/dS and is typically safer to use on
+sequence data where codon usage, (esp. at 3rd position), is uniform,
+the sequences are not very divergent, and transition/transversion rates, are similar.
 """
 function dNdS_NG86(x, y; addone::Bool = false, code::Int = 1)
     snlookup = S_N_NG86_LOOKUPS[code]
