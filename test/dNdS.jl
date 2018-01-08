@@ -74,6 +74,3 @@
 
     end
 end
-
-for i, j in zip(a[:-1], b[:-1]):
-        SN = [m + n for m, n in zip(SN, _count_diff_NG86(i, j, codon_table=default_codon_table))]
