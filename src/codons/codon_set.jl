@@ -10,6 +10,12 @@
 # Type definition
 # ---------------
 
+"""
+CodonSet is a primitive type that represents a set of all possible 64 codons.
+
+It is useful to compactly represent such a set in a single 64 bit word, when
+one is working with variations between biological sequences. 
+"""
 primitive type CodonSet{T<:NucleicAcid} 64 end
 
 

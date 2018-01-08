@@ -1,7 +1,7 @@
 # dnds.jl
 # =======
 #
-# dNdS computation.
+# dNdS statistics computation.
 #
 # This file is a part of BioJulia.
 # License is MIT: https://github.com/BioJulia/NaturalSelection.jl/blob/master/LICENSE.md
@@ -50,5 +50,12 @@ function aligned_codons(v::Vector{DNASequence}, start::Int = 1)
     return Vector{Codon{DNA}}[cdn[finalbool] for cdn in cdns]
 end
 
-include("NG86.jl")
+include("enumerator/enumerator.jl")
+include("enumerator/allpaths.jl")
+include("enumerator/shortestpath.jl")
+
+include("lookups/lookups.jl")
+
+include("NG86/NG86.jl")
+
 include("mkt/mkt.jl")

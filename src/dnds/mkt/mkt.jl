@@ -6,7 +6,6 @@
 # This file is a part of BioJulia.
 # License is MIT: https://github.com/BioJulia/BioSequences.jl/blob/master/LICENSE.md
 
-include("refs_and_graphs/lookups.jl")
 include("refs_and_graphs/codon_graphs.jl")
 include("mst.jl")
 
@@ -67,6 +66,12 @@ end
 
 mkt_α(PS, PN, DS, DN) = 1 - (DS * PN) / (DN * PS)
 
+
+"""
+    mkt(x, y, ref)
+
+Compute McDonald Kreitman statistics for two sets of codons.
+"""
 function mkt(x::Vector{Vector{Codon{T}}},
              y::Vector{Vector{Codon{T}}},
              ref::CodonGraphReference{Codon{T}} = DEFAULT_CODON_GRAPH_REFERENCE) where T <: NucleicAcid
