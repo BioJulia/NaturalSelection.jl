@@ -69,7 +69,9 @@
 
         @testset "dN/dS" begin
             @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[1] ≈ 0.154 atol=0.001
+            @test dNdS_NG86(dna"ATGAAACCCGGGTTTGGG", dna"ATGAAACGCGGCTACGGG")[1] ≈ 0.154 atol=0.001
             @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[2] ≈ 0.974 atol=0.001
+            @test dNdS_NG86(dna"ATGAAACCCGGGTTTGGG", dna"ATGAAACGCGGCTACGGG")[2] ≈ 0.974 atol=0.001
         end
 
     end
