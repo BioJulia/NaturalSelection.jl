@@ -53,16 +53,16 @@
 
             for i in firstcdn:lastcdn
                 cdn = DNACodon(i)
-                @test S_N_NG86(cdn, ncbi_trans_table[1])[1] == NaturalSelection.S_N_NG86_LOOKUPS[1][cdn][1]
-                @test S_N_NG86(cdn, ncbi_trans_table[1])[2] == NaturalSelection.S_N_NG86_LOOKUPS[1][cdn][2]
+                @test S_N_NG86(cdn, ncbi_trans_table[1])[1] == make_S_N_NG86_table(BioSequences.standard_genetic_code)[cdn][1]
+                @test S_N_NG86(cdn, ncbi_trans_table[1])[2] == make_S_N_NG86_table(BioSequences.standard_genetic_code)[cdn][2]
             end
 
             for i in firstcdn:lastcdn
                 for j in (i + 1):lastcdn
                     a = DNACodon(i)
                     b = DNACodon(j)
-                    @test DS_DN_NG86(a, b, ncbi_trans_table[1])[1] == NaturalSelection.DS_DN_NG86_LOOKUPS[1][a, b][1]
-                    @test DS_DN_NG86(a, b, ncbi_trans_table[1])[2] == NaturalSelection.DS_DN_NG86_LOOKUPS[1][a, b][2]
+                    @test DS_DN_NG86(a, b, ncbi_trans_table[1])[1] == make_DS_DN_NG86_table(BioSequences.standard_genetic_code)[a, b][1]
+                    @test DS_DN_NG86(a, b, ncbi_trans_table[1])[2] == make_DS_DN_NG86_table(BioSequences.standard_genetic_code)[a, b][2]
                 end
             end
         end
