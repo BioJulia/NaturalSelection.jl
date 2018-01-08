@@ -94,5 +94,5 @@ end
 
 function _dNdS_NG86(x, y, addone::Bool, snlookup::S_N_NG86_LOOKUP, dsdnlookup::DS_DN_NG86_LOOKUP, ::Type{N}, ::Type{N}) where N <: NucleicAcid
     xcdns, ycdns = aligned_codons(x, y)
-    _dNdS_NG86(x, y, addone, snlookup, dsdnlookup, eltype(xcdns), eltype(ycdns))
+    _dNdS_NG86(xcdns, ycdns, addone, snlookup, dsdnlookup, eltype(xcdns), eltype(ycdns))
 end
