@@ -5,7 +5,7 @@
                     [dna"AACGGGCCG", dna"ACAGGGCCC"]]
 
         @test mkt(NaturalSelection.aligned_codons(testseqs[1]),
-                  NaturalSelection.aligned_codons(testseqs[2])) == (2, 3, 0, 1, 1.0)
+                  NaturalSelection.aligned_codons(testseqs[2])) == (2, 3, 0, 1, 1.0, 0.0)
     end
 
 end

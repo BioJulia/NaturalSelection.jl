@@ -64,13 +64,17 @@ function mkt_PSPN(x::CodonSet{T},
     return a[1] + b[1], a[2] + b[2]
 end
 
-mkt_α(PS, PN, DS, DN) = 1 - (DS * PN) / (DN * PS)
-
+mkt_α(NI) = 1 - NI
+mkt_α(Ps, Pn, Ds, Dn) = 1 - mkt_NI(Ps, Pn, Ds, Dn)
+mkt_NI(Ps, Pn, Ds, Dn) = (Pn * Ds) / (Ps * Dn)
 
 """
     mkt(x, y, ref)
 
-Compute McDonald Kreitman statistics for two sets of codons.
+Compute [McDonald-Kreitman test](https://doi.org/10.1038%2F351652a0) statistics
+for two sets of codon sequences.
+
+This function returns the values of Ps, Pn, Ds, Dn, α, and the neutrality index (NI).
 """
 function mkt(x::Vector{Vector{Codon{T}}},
              y::Vector{Vector{Codon{T}}},
@@ -92,6 +96,7 @@ function mkt(x::Vector{Vector{Codon{T}}},
         DS +- DS_i
         DN += DN_i
     end
-    α = mkt_α(PS, PN, DS, DN)
-    return PS, PN, DS, DN, α
+    NI = mkt_NI(PS, PN, DS, DN)
+    α = mkt_α(NI)
+    return PS, PN, DS, DN, α, NI
 end
