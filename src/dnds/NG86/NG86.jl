@@ -36,9 +36,9 @@ function pairwise_dNdS_NG86(x, addone::Bool = false, code::Int = 1)
     @assert n >= 2 "At least two sequences are required."
     snlookup = S_N_NG86_LOOKUPS[code]
     dsdnlookup = DS_DN_NG86_LOOKUPS[code]
-    results = Matrix{Tuple{Float64, Float64}}(n, n)
+    results = Matrix{NTuple{6, Float64}}(n, n)
     for i in 1:n
-        results[i,i] = 0.0, 0.0
+        results[i,i] = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
         for j in (i + 1):n
             results[i,j] = results[j,i] = _dNdS_NG86(x[i], x[j], addone, snlookup, dsdnlookup, eltype(x[i]), eltype(x[j]))
         end

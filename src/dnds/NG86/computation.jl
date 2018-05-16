@@ -84,7 +84,7 @@ function dNdS_NG86_kernel(x, y,
     pS = DS / S
     dN = d_(pN)
     dS = d_(pS)
-    return dN, dS
+    return N, S, DN, DS, dN, dS
 end
 
 function _dNdS_NG86(x, y, addone::Bool, snlookup::S_N_NG86_LOOKUP, dsdnlookup::DS_DN_NG86_LOOKUP, ::Type{C}, ::Type{C}) where C <: Codon
