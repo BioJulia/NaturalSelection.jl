@@ -68,10 +68,21 @@
         end
 
         @testset "dN/dS" begin
-            @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[1] ≈ 0.154 atol=0.001
-            @test dNdS_NG86(dna"ATGAAACCCGGGTTTGGG", dna"ATGAAACGCGGCTACGGG")[1] ≈ 0.154 atol=0.001
-            @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[2] ≈ 0.974 atol=0.001
-            @test dNdS_NG86(dna"ATGAAACCCGGGTTTGGG", dna"ATGAAACGCGGCTACGGG")[2] ≈ 0.974 atol=0.001
+            n_ans = [3.0, 2.666, 2.0, 2.0, 2.666, 2.0, 3.000]
+            s_ans = [0.0, 0.333, 1.0, 1.0, 0.333, 1.0, 0.000]
+            @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[1] ≈ 14.333 atol=0.001
+            @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[2] ≈ 3.666 atol=0.001
+            @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[3] ≈ 2.0 atol=0.001
+            @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[4] ≈ 2.0 atol=0.001
+            @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[5] ≈ 0.154 atol=0.001
+            @test dNdS_NG86(codonsA[1:end-1], codonsB[1:end-1])[6] ≈ 0.974 atol=0.001
+
+            @test dNdS_NG86(dna"ATGAAACCCGGGTTTGGG", dna"ATGAAACGCGGCTACGGG")[1] ≈ 14.333 atol=0.001
+            @test dNdS_NG86(dna"ATGAAACCCGGGTTTGGG", dna"ATGAAACGCGGCTACGGG")[2] ≈ 3.666 atol=0.001
+            @test dNdS_NG86(dna"ATGAAACCCGGGTTTGGG", dna"ATGAAACGCGGCTACGGG")[3] ≈ 2.0 atol=0.001
+            @test dNdS_NG86(dna"ATGAAACCCGGGTTTGGG", dna"ATGAAACGCGGCTACGGG")[4] ≈ 2.0 atol=0.001
+            @test dNdS_NG86(dna"ATGAAACCCGGGTTTGGG", dna"ATGAAACGCGGCTACGGG")[5] ≈ 0.154 atol=0.001
+            @test dNdS_NG86(dna"ATGAAACCCGGGTTTGGG", dna"ATGAAACGCGGCTACGGG")[6] ≈ 0.974 atol=0.001
         end
 
     end
